@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "771655549469",
+    "project_id": "shikhon-60bba",
+    "storage_bucket": "shikhon-60bba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771655549469:android:a833a523bf9b0d19123cf4",
+        "android_client_info": {
+          "package_name": "com.sushmoyr.shikhon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771655549469-lb489dpb5vvb7lo81jddq0ammfvic03s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoPhEz-97xaNVgnvV-Xv2CIVocJhP9edI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771655549469-lb489dpb5vvb7lo81jddq0ammfvic03s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

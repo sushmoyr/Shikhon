@@ -57,6 +57,10 @@ class LoginFragment : Fragment() {
         val email = binding.email.text.toString().trimEnd()
         val password = binding.password.text.toString()
 
+        if(disallowed(email, password)){
+            Toast.makeText(requireContext(), "Fields can't be empty", Toast.LENGTH_SHORT).show()
+            return
+        }
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

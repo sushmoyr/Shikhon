@@ -2,16 +2,20 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
 
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.databinding.ImageListBinding
 import java.io.File
 
@@ -36,7 +40,7 @@ class PostImageListAdapter(private val newList: List<String>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = newList[position]
-        val storageRef = FirebaseStorage.getInstance().reference.child(currentItem)
+        /*val storageRef = FirebaseStorage.getInstance().reference.child(currentItem)
         val localFile = File.createTempFile("tempImage", "jpg")
         storageRef.getFile(localFile).addOnSuccessListener {
             val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
@@ -72,6 +76,17 @@ class PostImageListAdapter(private val newList: List<String>) :
 
                     }
                 )
+                .into(holder.binding.image)
+        }*/
+
+        val storageRef = Firebase.storage.reference
+        storageRef.child(currentItem).downloadUrl.addOnSuccessListener {
+            Log.d("Update", "Post image load success : ${it.toString()}")
+            Glide.with(holder.itemView.context)
+                .load(Uri.parse(it.toString()))
+                .override(holder.binding.image.width, holder.binding.image.height)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(holder.binding.image)
         }
     }

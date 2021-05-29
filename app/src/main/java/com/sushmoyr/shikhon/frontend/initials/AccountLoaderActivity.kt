@@ -1,5 +1,6 @@
 package com.sushmoyr.shikhon.frontend.initials
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.frontend.main.trainer.TrainerActivity
 import com.sushmoyr.shikhon.frontend.main.trainee.TraineeActivity
+import com.sushmoyr.shikhon.utils.Constants
 import kotlinx.coroutines.launch
 
 class AccountLoaderActivity : AppCompatActivity() {
@@ -33,7 +35,19 @@ class AccountLoaderActivity : AppCompatActivity() {
     }
 
     private fun updateCurrentAccountInfo() {
-        auth = Firebase.auth
+
+        val sharedPref =
+            this.getSharedPreferences(Constants.ACCOUNT_TYPE_EDITOR_KEY, Context.MODE_PRIVATE)
+        val value = sharedPref.getInt(Constants.ACCOUNT_TYPE_KEY, -1)
+        Log.d("update", "loader = $value")
+
+        when(value){
+            0 -> startTrainerActivity()
+            1 -> startTraineeActivity()
+            else -> finish()
+        }
+
+        /*auth = Firebase.auth
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
@@ -47,7 +61,7 @@ class AccountLoaderActivity : AppCompatActivity() {
 
                 }
             }
-        }
+        }*/
     }
 
     private fun startTraineeActivity() {

@@ -1,5 +1,6 @@
 package com.sushmoyr.shikhon.frontend.auths
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -107,7 +108,16 @@ class RegistrationFragment : Fragment() {
             val profilePicUri = Constants.DEFAULT_PROFILE_PIC_URI
             val newUser = User(uid, name, email, accountType, profilePicUri)
             authViewModel.registerUser(newUser)
+            addUserTypeToLocal(accountType)
         }
+    }
+
+    private fun addUserTypeToLocal(accountType: Int) {
+        val sharedPref =
+            requireActivity().getSharedPreferences(Constants.ACCOUNT_TYPE_EDITOR_KEY, Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt(Constants.ACCOUNT_TYPE_KEY, accountType)
+        editor.apply()
     }
 
     private fun getAccountType(): Int {

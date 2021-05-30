@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ServerTimestamp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.sushmoyr.shikhon.R
@@ -24,6 +26,7 @@ import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.databinding.FragmentPostBinding
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -83,7 +86,15 @@ class PostFragment : Fragment() {
 
         if(verifyPost(title, desc, location))
         {
-            val post = TrainingPost(postId, user, title, desc, location, allImageLocation)
+
+            val post = TrainingPost(
+                postId,
+                user,
+                title,
+                desc,
+                location,
+                allImageLocation
+            )
 
             postImages(allImageLocation)
             postContent(post)

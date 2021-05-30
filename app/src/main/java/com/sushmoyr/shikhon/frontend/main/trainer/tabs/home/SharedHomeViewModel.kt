@@ -4,35 +4,34 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sushmoyr.shikhon.backend.data.TrainingPost
+import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
+import kotlinx.coroutines.launch
 
 class SharedHomeViewModel: ViewModel() {
 
+    private val firebaseRepo = FirebaseRepository()
     val post = MutableLiveData<TrainingPost>()
     val test = MutableLiveData<String>()
-    val imageDataDetails = MutableLiveData<List<Bitmap>>()
     private val imageList: MutableList<Bitmap> = mutableListOf()
-    private var counter: Int = 0
+    val imageUriList = MutableLiveData<List<String>>()
+
+    fun setPhotosUris(photoUris: List<String>) {
+        viewModelScope.launch {
+            imageUriList.value = firebaseRepo.getPhotoUrls(photoUris)
+        }
+    }
+
+    fun updatePost(post: TrainingPost){
+        firebaseRepo.updatePost(post)
+    }
 
     fun setPostData(item: TrainingPost) {
         post.value = item
     }
 
-    fun selectText(text: String){
-        test.value = text + counter++
-    }
 
-    private fun setImageDataOfDetails(images: MutableList<Bitmap>) {
-        imageDataDetails.value = images
-        Log.d("Debug", "ImageDataDetails Size = ${imageDataDetails.value}")
-    }
-
-    fun addImageInList(image: Bitmap){
-        if(!imageList.contains(image)){
-            imageList.add(image)
-        }
-        setImageDataOfDetails(imageList)
-    }
     fun clearImageList(){
         imageList.clear()
     }

@@ -38,5 +38,30 @@
         android:id="@+id/postDetailsFragment"
         android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.PostDetailsFragment"
         android:label="fragment_post_details"
-        tools:layout="@layout/fragment_post_details" />
+        tools:layout="@layout/fragment_post_details" >
+        <action
+            android:id="@+id/action_postDetailsFragment_to_postOptionsFragment"
+            app:destination="@id/postOptionsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/postOptionsFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.PostOptionsFragment"
+        android:label="fragment_post_options"
+        tools:layout="@layout/fragment_post_options" >
+        <action
+            android:id="@+id/action_postOptionsFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+        <action
+            android:id="@+id/action_postOptionsFragment_to_updatePostFragment"
+            app:destination="@id/updatePostFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/updatePostFragment"
+        android:name="com.sushmoyr.shikhon.UpdatePostFragment"
+        android:label="fragment_update_post"
+        tools:layout="@layout/fragment_update_post" >
+        <action
+            android:id="@+id/action_updatePostFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+    </fragment>
 </navigation>

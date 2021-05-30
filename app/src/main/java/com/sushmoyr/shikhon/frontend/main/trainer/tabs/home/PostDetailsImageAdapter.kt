@@ -2,8 +2,10 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,12 +19,12 @@ import com.sushmoyr.shikhon.databinding.ImageListBinding
 
 class PostDetailsImageAdapter: RecyclerView.Adapter<PostDetailsImageAdapter.MyViewHolder>() {
 
-    private var imageList = emptyList<Bitmap>()
+    private var imageList = emptyList<String>()
 
     class MyViewHolder(val binding: DetailImageLayoutBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(currentItem: Bitmap){
+        fun bind(currentItem: String){
             Glide.with(binding.root.context)
-                .load(currentItem)
+                .load(Uri.parse(currentItem))
                 .listener(
                     object : RequestListener<Drawable> {
                         override fun onLoadFailed(
@@ -46,6 +48,7 @@ class PostDetailsImageAdapter: RecyclerView.Adapter<PostDetailsImageAdapter.MyVi
                             isFirstResource: Boolean
                         ): Boolean {
                             Log.d("Debug", "Load Success on details")
+                            binding.loadingDetails.visibility = View.GONE
                             return false
                         }
 
@@ -66,7 +69,7 @@ class PostDetailsImageAdapter: RecyclerView.Adapter<PostDetailsImageAdapter.MyVi
         return imageList.count()
     }
 
-    fun setAdapterData(data: List<Bitmap>){
+    fun setAdapterData(data: List<String>){
         imageList = data
         Log.d("debug", "Details image adapter called")
         notifyDataSetChanged()

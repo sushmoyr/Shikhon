@@ -3,7 +3,7 @@ package com.sushmoyr.shikhon.utils
 import android.text.TextUtils
 import com.sushmoyr.shikhon.backend.data.User
 
-object ProfileChecker {
+object rofileChecker {
     private const val requiredPercent: Double = 0.8
     fun isProfileComplete(user: User): Boolean {
         val completePercent: Double = getProfileCompletePercent(user)

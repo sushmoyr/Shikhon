@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private val model: SharedHomeViewModel by activityViewModels()
+    private val homeModel: HomeViewModel by viewModels()
     private val debug = "Debug"
 
     private var _binding : FragmentHomeBinding? = null
@@ -31,7 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
 
     private val adapter: PostListAdapter by lazy {
-        PostListAdapter {
+        PostListAdapter {//OnClick event
             model.setPostData(it)
             findNavController().navigate(R.id.action_homeFragment_to_postDetailsFragment)
         }
@@ -52,15 +54,18 @@ class HomeFragment : Fragment() {
 
         posts = mutableListOf()
 
+        homeModel.allPost.observe(viewLifecycleOwner, { data->
+            adapter.setData(data)
+        })
+
+
         val recyclerView = binding.newsFeed
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
-        //getting images
-        val ref = firebaseFirestore.collection("allPosts")
-        val userRef = firebaseFirestore.collection("user")
+        /*val ref = firebaseFirestore.collection("allPosts")
 
         ref.addSnapshotListener{ snapshot, exception->
             if(exception != null || snapshot==null ){
@@ -76,7 +81,7 @@ class HomeFragment : Fragment() {
                 Log.d(debug, "Added post and size = ${posts.size}")
             }
             adapter.setData(posts)
-        }
+        }*/
 
         return binding.root
     }

@@ -52,47 +52,6 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
                     .into(binding.profilePic)
             }
 
-            //setup profile pic
-            /*val storageRef = FirebaseStorage.getInstance().reference.child(currentItem.user.profilePicUri)
-            Log.d("UserProfile", currentItem.user.profilePicUri)
-            val localfile = File.createTempFile("tempProfilePic",".png")
-            storageRef.getFile(localfile).addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-
-                Glide.with(binding.root.context)
-                    .load(bitmap)
-                    .centerCrop()
-                    .listener(
-                        object : RequestListener<Drawable> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                Log.d("UserProfile", "profile pic Load failed. Getting Exception")
-                                if (e != null) {
-                                    Log.d("UserProfile", e.stackTraceToString())
-                                }
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                Log.d("UserProfile", "Profile pic Load Success")
-                                return false
-                            }
-
-                        }
-                    )
-                    .into(binding.profilePic)
-            }*/
-
             if (currentItem.photoUris.isNotEmpty()) {
                 binding.postPhotos.visibility = View.VISIBLE
 
@@ -131,6 +90,5 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
         Log.d("Debug", "RV data set")
         notifyDataSetChanged()
     }
-
 
 }

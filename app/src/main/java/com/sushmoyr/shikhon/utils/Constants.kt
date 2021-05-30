@@ -1,5 +1,7 @@
 package com.sushmoyr.shikhon.utils
 
+import java.time.LocalDateTime
+
 object Constants {
     const val USER_TYPE_TRAINER = 0
     const val USER_TYPE_TRAINEE = 1
@@ -8,4 +10,5 @@ object Constants {
     const val ONBOARDING_STATE = "onboardingState"
     const val ONBOARDING_FINISHED = "onboardingFinished"
     const val DEFAULT_PROFILE_PIC_URI = "images/avatar-placeholder.png"
+    val DEFAULT_DATE = LocalDateTime.of(2021,1,1,1,1,1)
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -12,22 +12,47 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".frontend.main.trainer.tabs.post.PostFragment">
+        tools:context=".UpdatePostFragment">
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/updatePostButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/update"
+            app:icon="@drawable/ic_baseline_check_24"
+            app:layout_constraintBottom_toTopOf="@+id/cancelUpdateButton"
+            app:layout_constraintEnd_toEndOf="@+id/cancelUpdateButton" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/cancelUpdateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:text="@string/cancel"
+            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/testPost"
+            android:id="@+id/updatePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/raleway_bold"
-            android:text="@string/post_a_new_training_offer"
+            android:text="@string/update_post"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trainingTitle"
+            android:id="@+id/trainingTitleUpdate"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,10 +61,10 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/testPost">
+            app:layout_constraintTop_toBottomOf="@+id/updatePost">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trainingTitleText"
+                android:id="@+id/trainingTitleUpdateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/raleway"
@@ -48,81 +73,43 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trainingDesc"
+            android:id="@+id/trainingDescUpdate"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/trainingTitle"
-            app:layout_constraintStart_toStartOf="@id/trainingTitle"
-            app:layout_constraintTop_toBottomOf="@+id/trainingTitle">
+            app:layout_constraintEnd_toEndOf="@id/trainingTitleUpdate"
+            app:layout_constraintStart_toStartOf="@id/trainingTitleUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/trainingTitleUpdate">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/trainingDescText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/raleway"
+                android:lines="6"
                 android:hint="@string/training_description"
                 android:text="@{post.trainingDescription}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
+            android:id="@+id/updateLocation"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/trainingDesc"
-            app:layout_constraintStart_toStartOf="@id/trainingDesc"
-            app:layout_constraintTop_toBottomOf="@+id/trainingDesc">
+            app:layout_constraintEnd_toEndOf="@id/trainingDescUpdate"
+            app:layout_constraintStart_toStartOf="@id/trainingDescUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/trainingDescUpdate">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trainingLocationText"
+                android:id="@+id/updateLocationText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/raleway"
                 android:hint="@string/training_location"
                 android:text="@{post.trainingLocation}" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageGrid"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/uploadImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/uploadImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/postButton"
-            app:layout_constraintEnd_toEndOf="@+id/postButton"
-            app:layout_constraintStart_toStartOf="@+id/postButton"
-            app:srcCompat="@drawable/ic_baseline_image_24"
-            android:contentDescription="@string/floating_action_button" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/postButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_check_24"
-            android:contentDescription="@string/floating_action_button" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

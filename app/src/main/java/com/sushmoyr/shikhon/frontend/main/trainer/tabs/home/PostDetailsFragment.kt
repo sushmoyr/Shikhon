@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentPostDetailsBinding
 import java.io.File
@@ -33,6 +35,7 @@ class PostDetailsFragment : Fragment() {
     
     private val auth = Firebase.auth
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,15 +51,14 @@ class PostDetailsFragment : Fragment() {
             updateUI(post)
         })
 
-        model.imageDataDetails.observe(viewLifecycleOwner, {data->
-            Log.d("Debug", "ViewModel: update called")
-            updateRecyclerView(data)
+        model.imageUriList.observe(viewLifecycleOwner, {
+            updateRecyclerView(it)
         })
 
         return binding.root
     }
 
-    private fun updateRecyclerView(data: List<Bitmap>) {
+    private fun updateRecyclerView(data: List<String>) {
         adapter.setAdapterData(data)
         val recyclerView = binding.detailsPostPhotosRv
         recyclerView.adapter = adapter
@@ -67,13 +69,14 @@ class PostDetailsFragment : Fragment() {
         if(post != null){
             //update ui data
             binding.post = post
-            fetchImageData(post.photoUris)
-            
+
+            model.setPhotosUris(post.photoUris)
+
             if(post.user.uuid == auth.currentUser?.uid){
                 binding.moreOptions.visibility = View.VISIBLE
                 
                 binding.moreOptions.setOnClickListener{
-                    Toast.makeText(requireContext(), "Options", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_postDetailsFragment_to_postOptionsFragment)
                 }
             }
             else{
@@ -83,7 +86,7 @@ class PostDetailsFragment : Fragment() {
     }
 
 
-    private fun fetchImageData(photoUris: List<String>) {
+/*    private fun fetchImageData(photoUris: List<String>) {
         val storageInstance = FirebaseStorage.getInstance()
         for(uri in photoUris){
             val storageRef = storageInstance.reference.child(uri)
@@ -94,11 +97,12 @@ class PostDetailsFragment : Fragment() {
                 model.addImageInList(bitmap)
             }
         }
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        model.imageUriList.value = emptyList()
     }
 
 }

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -84,6 +85,35 @@ class PostImageListAdapter(private val newList: List<String>) :
             Log.d("Update", "Post image load success : ${it.toString()}")
             Glide.with(holder.itemView.context)
                 .load(Uri.parse(it.toString()))
+                .listener(
+                    object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.d("Debug", "Load failed on details. Getting Exception")
+                            if (e != null) {
+                                Log.d("Debug", e.stackTraceToString())
+                            }
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            Log.d("Debug", "Load Success on details")
+                            holder.binding.loadingImage.visibility = View.GONE
+                            return false
+                        }
+
+                    }
+                )
                 .override(holder.binding.image.width, holder.binding.image.height)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

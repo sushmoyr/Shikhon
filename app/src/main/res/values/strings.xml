@@ -7,4 +7,12 @@
     <string name="dummy_post_content">Some random jibberinsh course which will help you to learn android native with kotlin java and whatever shit you want in a shitty and stupid fucking way</string>
     <string name="dummy_post_loaction">Fucker\'s Home</string>
     <string name="_100">100</string>
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
+    <string name="floating_action_button">Floating action button</string>
+    <string name="post_a_new_training_offer">Post a new training offer</string>
+    <string name="training_name">Training Name</string>
+    <string name="training_description">Training Description</string>
+    <string name="training_location">Training Location</string>
+    <string name="update_post">Update post</string>
 </resources>

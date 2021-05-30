@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
+            app:destination="@id/postDetailsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -42,6 +42,10 @@
         <action
             android:id="@+id/action_postDetailsFragment_to_postOptionsFragment"
             app:destination="@id/postOptionsFragment" />
+        <argument
+            android:name="detailPostId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <dialog
         android:id="@+id/postOptionsFragment"

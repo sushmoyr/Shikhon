@@ -2,28 +2,36 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentPostDetailsBinding
+import com.sushmoyr.shikhon.frontend.main.trainer.bindingadapters.DataBindingAdapters.Companion.setReactColor
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostDetailsImageAdapter
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.DetailsViewModel
 
 class PostDetailsFragment : Fragment() {
+
+    private val args: PostDetailsFragmentArgs by navArgs()
 
     private var _binding: FragmentPostDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val model: SharedHomeViewModel by activityViewModels()
+    private val viewModel : DetailsViewModel by viewModels()
 
     private lateinit var images: MutableList<Bitmap>
 
@@ -44,19 +52,34 @@ class PostDetailsFragment : Fragment() {
         images = mutableListOf()
 
         //model.clearImageList()
+        val postId = args.detailPostId
+        if(postId!=null){
+            viewModel.getPost(postId)
+        }
 
-        val post = model.post
-        post.observe(viewLifecycleOwner, { data ->
-            updateUI(data)
+        viewModel.post.observe(viewLifecycleOwner, {value ->
+            updateUI(value)
+            Log.d("BlaBla", value.postId)
+            Log.d("BlaBla", value.trainingName)
+            Log.d("BlaBla", value.trainingLocation)
+            Log.d("BlaBla", value.trainingDescription)
+            Log.d("BlaBla", value.postTime)
+            Log.d("BlaBla", value.photoUris.toString())
+            Log.d("BlaBla", value.reacts.toString())
+            Log.d("BlaBla", value.comments.toString())
+            Log.d("BlaBla", value.user.uuid)
+            Log.d("BlaBla", value.user.email)
+            Log.d("BlaBla", value.user.profilePicUri)
+            Log.d("BlaBla", value.user.name)
+            Log.d("BlaBla", value.user.profilePicUri)
         })
 
-        model.imageUriList.observe(viewLifecycleOwner, {
+        viewModel.imageUriList.observe(viewLifecycleOwner, {
             updateRecyclerView(it)
         })
 
         binding.reactButton.setOnClickListener {
             Toast.makeText(requireContext(), "Liked!!!", Toast.LENGTH_SHORT).show()
-            post.value?.let { it1 -> model.cyclePostReact(auth.uid.toString(), it1) }
         }
 
         binding.commentButton.setOnClickListener {
@@ -78,7 +101,7 @@ class PostDetailsFragment : Fragment() {
             //update ui data
             binding.post = post
 
-            model.setPhotosUris(post.photoUris)
+            viewModel.setPhotosUris(post.photoUris)
 
             if(post.user.uuid == auth.currentUser?.uid){
                 binding.moreOptions.visibility = View.VISIBLE
@@ -99,7 +122,7 @@ class PostDetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        model.imageUriList.value = emptyList()
+        viewModel.imageUriList.value = emptyList()
     }
 
 }

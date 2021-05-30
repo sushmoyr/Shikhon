@@ -14,5 +14,6 @@
     <color name="blue_200">#40c4ff</color>
     <color name="blue_500">#0ec9dc</color>
     <color name="blue_700">#0098aa</color>
+    <color name="grey">@android:color/darker_gray</color>
 
 </resources>

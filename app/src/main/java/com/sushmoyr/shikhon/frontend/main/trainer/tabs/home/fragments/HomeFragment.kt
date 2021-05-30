@@ -32,7 +32,8 @@ class HomeFragment : Fragment() {
     private val adapter: PostListAdapter by lazy {
         PostListAdapter {//OnClick event
             model.setPostData(it)
-            findNavController().navigate(R.id.action_homeFragment_to_postDetailsFragment)
+            val directions = HomeFragmentDirections.actionHomeFragmentToPostDetailsFragment(it.postId)
+            findNavController().navigate(directions)
         }
     }
 

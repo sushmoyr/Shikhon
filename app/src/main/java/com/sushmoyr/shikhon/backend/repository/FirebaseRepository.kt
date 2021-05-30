@@ -17,6 +17,7 @@ class FirebaseRepository {
     private val storage = Firebase.storage
 
     private val allPosts = MutableLiveData<List<TrainingPost>>()
+    private val singlePost = MutableLiveData<TrainingPost>()
 
     fun addUserToDatabase(user: User) {
         db.collection(Constants.USER)
@@ -96,7 +97,7 @@ class FirebaseRepository {
         db.collection(Constants.POST_BASE_URL).document(postId)
             .update("reacts", newReacts)
             .addOnSuccessListener {
-                Log.d("Reacts", "Added a new React. Total react ${newReacts.size}")
+                Log.d("Reacts", "React data updated. Total react ${newReacts.size}")
             }
             .addOnFailureListener {
                 Log.d("Reacts", "Failed to add react")
@@ -118,6 +119,21 @@ class FirebaseRepository {
         Log.d("repocheck", "returning from updatePostData()")
 
         return allPosts
+    }
+
+    fun getSinglePost(postId: String): MutableLiveData<TrainingPost> {
+        val ref = db.collection(Constants.POST_BASE_URL).document(postId)
+
+        ref.addSnapshotListener { value, error ->
+            if(error!=null || value == null){
+                Log.d("SinglePost", "Single Post update failed")
+                return@addSnapshotListener
+            }
+            val post = value.toObject(TrainingPost::class.java)
+            singlePost.value = post
+        }
+
+        return singlePost
     }
 
     fun deleteTrainerPost(post: TrainingPost){

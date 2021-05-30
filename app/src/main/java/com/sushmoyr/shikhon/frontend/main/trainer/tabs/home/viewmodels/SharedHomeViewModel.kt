@@ -1,4 +1,4 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -29,6 +29,21 @@ class SharedHomeViewModel: ViewModel() {
 
     fun setPostData(item: TrainingPost) {
         post.value = item
+    }
+
+    fun cyclePostReact(uid: String, post: TrainingPost){
+        val reacts: MutableList<String> = post.reacts.toMutableList()
+        if(reacts.contains(uid)){
+            reacts.remove(uid)
+        }
+        else
+            reacts.add(uid)
+
+        for (i in reacts){
+            Log.d("Reacts", i)
+        }
+
+        firebaseRepo.updateReactData(post.postId, reacts)
     }
 
 

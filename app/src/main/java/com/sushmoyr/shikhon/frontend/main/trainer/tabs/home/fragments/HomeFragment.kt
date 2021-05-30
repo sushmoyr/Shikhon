@@ -1,24 +1,21 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
-import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.databinding.FragmentHomeBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.HomeViewModel
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostListAdapter
 
 class HomeFragment : Fragment() {
     private val model: SharedHomeViewModel by activityViewModels()

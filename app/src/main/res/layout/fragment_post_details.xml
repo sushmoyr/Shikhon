@@ -38,7 +38,7 @@
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/some_image"
+                        android:sourceUrl="@{post.user.profilePicUri}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/raleway_semibold"
-                        android:text="John Doe"
+                        android:text="@{post.user.name}"
+                        android:hint="John Doe"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/detailsUserPhoto"
@@ -61,6 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dummy_post_date"
+                        android:parseDate="@{post.postTime}"
                         app:layout_constraintBottom_toBottomOf="@+id/detailsUserPhoto"
                         app:layout_constraintStart_toStartOf="@+id/detailsUserName"
                         app:layout_constraintTop_toBottomOf="@+id/detailsUserName" />
@@ -72,7 +74,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="@string/dummy_post_title"
+                        android:hint="@string/dummy_post_title"
+                        android:text="@{post.trainingName}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/detailsUserPhoto"
                         app:layout_constraintTop_toBottomOf="@+id/detailsUserPhoto" />
@@ -84,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto"
-                        android:text="@string/dummy_post_content"
+                        android:hint="@string/dummy_post_content"
+                        android:text="@{post.trainingDescription}"
                         app:layout_constraintEnd_toEndOf="@+id/detailsPostLocation"
                         app:layout_constraintStart_toStartOf="@+id/detailsPostLocation"
                         app:layout_constraintTop_toBottomOf="@+id/detailsPostLocation" />
@@ -93,88 +97,102 @@
                         android:id="@+id/detailsPostLocation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text="@{post.trainingLocation}"
                         app:layout_constraintEnd_toEndOf="@+id/detailsPostTitle"
                         app:layout_constraintStart_toStartOf="@+id/detailsPostTitle"
                         app:layout_constraintTop_toBottomOf="@+id/detailsPostTitle" />
 
-                    <ImageView
-                        android:id="@+id/reactIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/ic_favorite"
-                        app:layout_constraintStart_toStartOf="@+id/detailsPostContent"
-                        app:layout_constraintTop_toBottomOf="@+id/detailsPostContent" />
 
-                    <TextView
-                        android:id="@+id/reactCount"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/reactCommentLayout"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text="@string/_100"
-                        android:textAlignment="center"
-                        android:textSize="12sp"
+                        android:orientation="horizontal"
+                        android:weightSum="3"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/reactIcon"
-                        app:layout_constraintStart_toStartOf="@+id/reactIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/reactIcon" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsPostContent">
 
-                    <ImageView
-                        android:id="@+id/commentIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_baseline_add_comment_24"
-                        app:layout_constraintBottom_toBottomOf="@+id/reactIcon"
-                        app:layout_constraintStart_toEndOf="@+id/reactIcon"
-                        app:layout_constraintTop_toTopOf="@+id/reactIcon" />
 
-                    <TextView
-                        android:id="@+id/commentCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="100"
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/reactCount"
-                        app:layout_constraintEnd_toEndOf="@+id/commentIcon"
-                        app:layout_constraintStart_toStartOf="@+id/commentIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/commentIcon" />
+                        <LinearLayout
+                            android:id="@+id/reactButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp">
 
-                    <ImageView
-                        android:id="@+id/saveIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_bookmark"
-                        app:layout_constraintBottom_toBottomOf="@id/commentIcon"
-                        app:layout_constraintStart_toEndOf="@id/commentIcon"
-                        app:layout_constraintTop_toTopOf="@id/commentIcon" />
+                            <ImageView
+                                android:id="@+id/reactIcon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_favorite" />
 
-                    <TextView
-                        android:id="@+id/saveCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="100"
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/commentCount"
-                        app:layout_constraintEnd_toEndOf="@+id/saveIcon"
-                        app:layout_constraintStart_toStartOf="@+id/saveIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/saveIcon" />
+                            <TextView
+                                android:id="@+id/reactText"
+                                style="@style/TextAppearance.MaterialComponents.Body1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="Like" />
 
-                    <ImageView
-                        android:id="@+id/more_options"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/saveIcon"
-                        app:layout_constraintEnd_toEndOf="@+id/detailsPostContent"
-                        app:layout_constraintTop_toTopOf="@+id/saveIcon"
-                        app:srcCompat="@drawable/ic_baseline_more" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/commentButton"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_baseline_add_comment_24" />
+
+                            <TextView
+                                style="@style/TextAppearance.MaterialComponents.Body1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="Comment" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/more_options"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_unfold_more" />
+
+                            <TextView
+                                style="@style/TextAppearance.MaterialComponents.Body1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="More" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

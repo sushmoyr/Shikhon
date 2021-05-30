@@ -1,6 +1,5 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters
 
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
@@ -15,10 +14,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.databinding.ImageListBinding
-import java.io.File
 
 class PostImageListAdapter(private val newList: List<String>) :
     RecyclerView.Adapter<PostImageListAdapter.MyViewHolder>() {

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".UpdatePostFragment">
+        tools:context=".frontend.main.trainer.tabs.home.fragments.UpdatePostFragment">
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/updatePostButton"

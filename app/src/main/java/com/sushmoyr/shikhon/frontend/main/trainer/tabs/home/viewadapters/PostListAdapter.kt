@@ -1,7 +1,5 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters
 
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,17 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.TrainerPostLayoutBinding
-import java.io.File
 
 
 class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : RecyclerView.Adapter<PostListAdapter.MyViewHolder>() {
@@ -36,21 +28,9 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
         }
         fun bind(currentItem: TrainingPost) {
 
-            binding.postTitle.text = currentItem.trainingName
-            binding.postDescription.text = currentItem.trainingDescription
-            binding.postLocation.text = currentItem.trainingLocation
-            binding.userName.text = currentItem.user.name
-
-            val storageRef = Firebase.storage.reference
-            storageRef.child(currentItem.user.profilePicUri).downloadUrl.addOnSuccessListener {
-                Log.d("Update", "Profile pic ur success : ${it.toString()}")
-                Glide.with(binding.root.context)
-                    .load(Uri.parse(it.toString()))
-                    .override(binding.profilePic.width, binding.profilePic.height)
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(binding.profilePic)
-            }
+            binding.post = currentItem
+            binding.numberOfReacts.text = currentItem.reacts.size.toString()
+            binding.numberOfComments.text = currentItem.comments.size.toString()
 
             if (currentItem.photoUris.isNotEmpty()) {
                 binding.postPhotos.visibility = View.VISIBLE

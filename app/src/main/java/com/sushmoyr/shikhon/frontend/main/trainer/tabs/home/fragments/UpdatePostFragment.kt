@@ -1,4 +1,4 @@
-package com.sushmoyr.shikhon
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentUpdatePostBinding
-import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.SharedHomeViewModel
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
 import com.sushmoyr.shikhon.utils.Verify
 
 class UpdatePostFragment : Fragment() {

@@ -1,9 +1,7 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home
+package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentPostDetailsBinding
-import java.io.File
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
+import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostDetailsImageAdapter
 
 class PostDetailsFragment : Fragment() {
 
@@ -39,7 +37,7 @@ class PostDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentPostDetailsBinding.inflate(inflater, container, false)
 
@@ -47,13 +45,23 @@ class PostDetailsFragment : Fragment() {
 
         //model.clearImageList()
 
-        model.post.observe(viewLifecycleOwner, { post ->
-            updateUI(post)
+        val post = model.post
+        post.observe(viewLifecycleOwner, { data ->
+            updateUI(data)
         })
 
         model.imageUriList.observe(viewLifecycleOwner, {
             updateRecyclerView(it)
         })
+
+        binding.reactButton.setOnClickListener {
+            Toast.makeText(requireContext(), "Liked!!!", Toast.LENGTH_SHORT).show()
+            post.value?.let { it1 -> model.cyclePostReact(auth.uid.toString(), it1) }
+        }
+
+        binding.commentButton.setOnClickListener {
+            Toast.makeText(requireContext(), "Comment!!!", Toast.LENGTH_SHORT).show()
+        }
 
         return binding.root
     }
@@ -74,13 +82,14 @@ class PostDetailsFragment : Fragment() {
 
             if(post.user.uuid == auth.currentUser?.uid){
                 binding.moreOptions.visibility = View.VISIBLE
-                
+                binding.reactCommentLayout.weightSum = 3F
                 binding.moreOptions.setOnClickListener{
                     findNavController().navigate(R.id.action_postDetailsFragment_to_postOptionsFragment)
                 }
             }
             else{
                 binding.moreOptions.visibility = View.GONE
+                binding.reactCommentLayout.weightSum = 2F
             }
         }
     }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="0dp"
     app:layout_behavior="@string/bottom_sheet_behavior"
-    tools:context=".frontend.main.trainer.tabs.home.PostOptionsFragment">
+    tools:context=".frontend.main.trainer.tabs.home.fragments.PostOptionsFragment">
 
     <ImageView
         android:id="@+id/imageView10"

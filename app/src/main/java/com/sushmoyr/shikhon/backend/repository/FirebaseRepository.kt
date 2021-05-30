@@ -82,7 +82,7 @@ class FirebaseRepository {
     }
 
     fun updatePost(post: TrainingPost) {
-        db.collection("allPosts").document(post.postId)
+        db.collection(Constants.POST_BASE_URL).document(post.postId)
             .set(post)
             .addOnSuccessListener {
                 Log.d("update", "Post with ${post.postId} updated by ${post.user.name}")
@@ -92,7 +92,18 @@ class FirebaseRepository {
             }
     }
 
-    fun updatePostData(): MutableLiveData<List<TrainingPost>> {
+    fun updateReactData(postId: String , newReacts: List<String>){
+        db.collection(Constants.POST_BASE_URL).document(postId)
+            .update("reacts", newReacts)
+            .addOnSuccessListener {
+                Log.d("Reacts", "Added a new React. Total react ${newReacts.size}")
+            }
+            .addOnFailureListener {
+                Log.d("Reacts", "Failed to add react")
+            }
+    }
+
+    fun getPostData(): MutableLiveData<List<TrainingPost>> {
         val ref = db.collection("allPosts")
 
         ref.addSnapshotListener { snapshot, exception ->

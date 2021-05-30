@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.HomeFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_extras" />
     <fragment
         android:id="@+id/postDetailsFragment"
-        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.PostDetailsFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments.PostDetailsFragment"
         android:label="fragment_post_details"
         tools:layout="@layout/fragment_post_details" >
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <dialog
         android:id="@+id/postOptionsFragment"
-        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.PostOptionsFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments.PostOptionsFragment"
         android:label="fragment_post_options"
         tools:layout="@layout/fragment_post_options" >
         <action
@@ -57,7 +57,7 @@
     </dialog>
     <fragment
         android:id="@+id/updatePostFragment"
-        android:name="com.sushmoyr.shikhon.UpdatePostFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments.UpdatePostFragment"
         android:label="fragment_update_post"
         tools:layout="@layout/fragment_update_post" >
         <action

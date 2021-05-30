@@ -15,11 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ServerTimestamp
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.type.DateTime
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
@@ -27,8 +26,10 @@ import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.databinding.FragmentPostBinding
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class PostFragment : Fragment() {
 
@@ -61,7 +62,9 @@ class PostFragment : Fragment() {
         }
 
         binding.postButton.setOnClickListener {
+            binding.postButton.isClickable = false
             post()
+            Toast.makeText(requireContext(), "Uploading Post", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
@@ -69,14 +72,14 @@ class PostFragment : Fragment() {
 
     private fun post() {
 
-        val path = "images/${currentUser?.uid}/"
+        val path = "images/posts"
         val allImageLocation = ArrayList<String>()
-        val postId = getCurrentTime()
-        val imageLocation = path + postId
+        val postTime = getCurrentTime()
+        val postId = postTime +"_${user.uuid}"
 
         for(i in 0 until allImages.count())
         {
-            allImageLocation.add("images/posts/$postId/$i")
+            allImageLocation.add("$path/$postId/$i")
         }
 
         //creating post
@@ -93,6 +96,7 @@ class PostFragment : Fragment() {
                 title,
                 desc,
                 location,
+                postTime,
                 allImageLocation
             )
 
@@ -165,7 +169,7 @@ class PostFragment : Fragment() {
                 // if single image is selected
 
                 var imageUri: Uri = data.data!!
-
+                allImages.add(imageUri)
             }
         }
 
@@ -186,10 +190,9 @@ class PostFragment : Fragment() {
         _binding = null
     }
 
-    private fun getCurrentTime(): String{
+    private fun getCurrentTime(): String {
         val formatter = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.getDefault())
         val now = Date()
-        val formattedName = formatter.format(now)
-        return formattedName
+        return formatter.format(now)
     }
 }

@@ -10,5 +10,5 @@ object Constants {
     const val ONBOARDING_STATE = "onboardingState"
     const val ONBOARDING_FINISHED = "onboardingFinished"
     const val DEFAULT_PROFILE_PIC_URI = "images/avatar-placeholder.png"
-    val DEFAULT_DATE = LocalDateTime.of(2021,1,1,1,1,1)
+    const val POST_BASE_URL = "allPosts"
 }

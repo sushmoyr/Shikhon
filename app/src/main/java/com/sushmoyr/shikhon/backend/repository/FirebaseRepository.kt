@@ -109,4 +109,29 @@ class FirebaseRepository {
         return allPosts
     }
 
+    fun deleteTrainerPost(post: TrainingPost){
+        db.collection(Constants.POST_BASE_URL).document(post.postId).delete()
+            .addOnSuccessListener {
+                Log.d("DeletePost", "Post with id: ${post.postId} has been deleted")
+                if(post.photoUris.isNotEmpty())
+                {
+                    deleteTrainerPostImageData(post.photoUris)
+                }
+            }
+            .addOnFailureListener {
+                Log.d("DeletePost", "Post with id: ${post.postId} Failed to deleted")
+            }
+    }
+
+    private fun deleteTrainerPostImageData(photoUris: List<String>) {
+        val storageRef = storage.reference
+        for (uri in photoUris){
+            storageRef.child(uri).delete().addOnSuccessListener {
+                Log.d("DeletePost", "Successfully Deleted File $uri")
+            }
+                .addOnFailureListener {
+                    Log.d("DeletePost", "Post delete Failed Nigga nigga")
+                }
+        }
+    }
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sushmoyr.shikhon.R
@@ -15,6 +16,8 @@ class PostOptionsFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPostOptionsBinding? = null
     private val binding get() = _binding!!
+
+    private val model: SharedHomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,8 @@ class PostOptionsFragment : BottomSheetDialogFragment() {
 
         binding.deletPostView.setOnClickListener {
             Toast.makeText(requireContext(), "Deleting", Toast.LENGTH_SHORT).show()
+            model.deletePost()
+            findNavController().navigate(R.id.action_postOptionsFragment_to_homeFragment)
         }
 
 

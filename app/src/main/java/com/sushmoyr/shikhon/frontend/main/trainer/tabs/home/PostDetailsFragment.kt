@@ -45,7 +45,7 @@ class PostDetailsFragment : Fragment() {
 
         images = mutableListOf()
 
-        model.clearImageList()
+        //model.clearImageList()
 
         model.post.observe(viewLifecycleOwner, { post ->
             updateUI(post)
@@ -86,18 +86,6 @@ class PostDetailsFragment : Fragment() {
     }
 
 
-/*    private fun fetchImageData(photoUris: List<String>) {
-        val storageInstance = FirebaseStorage.getInstance()
-        for(uri in photoUris){
-            val storageRef = storageInstance.reference.child(uri)
-            val localFile = File.createTempFile("tempImage", "jpg")
-            storageRef.getFile(localFile).addOnSuccessListener{
-                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                Log.d("Debug", "Added an image in details fragment")
-                model.addImageInList(bitmap)
-            }
-        }
-    }*/
 
     override fun onDestroy() {
         super.onDestroy()

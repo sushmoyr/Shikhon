@@ -14,7 +14,7 @@ class SharedHomeViewModel: ViewModel() {
     private val firebaseRepo = FirebaseRepository()
     val post = MutableLiveData<TrainingPost>()
     val test = MutableLiveData<String>()
-    private val imageList: MutableList<Bitmap> = mutableListOf()
+    //private val imageList: MutableList<Bitmap> = mutableListOf()
     val imageUriList = MutableLiveData<List<String>>()
 
     fun setPhotosUris(photoUris: List<String>) {
@@ -32,7 +32,14 @@ class SharedHomeViewModel: ViewModel() {
     }
 
 
-    fun clearImageList(){
+    /*fun clearImageList(){
         imageList.clear()
+    }*/
+
+    fun deletePost(){
+        val post = post.value
+        if (post != null) {
+            firebaseRepo.deleteTrainerPost(post)
+        }
     }
 }

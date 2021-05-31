@@ -192,8 +192,6 @@ class PostFragment : Fragment() {
     }
 
     private fun getCurrentTime(): String {
-        val formatter = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.getDefault())
-        val now = Date()
-        return formatter.format(now)
+        return LocalDateTime.now().toString()
     }
 }

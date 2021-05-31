@@ -54,8 +54,17 @@ class PostDetailsFragment : Fragment() {
         }
 
         viewModel.post.observe(viewLifecycleOwner, {value ->
-            updateUI(value)
-            binding.reactText.text = value.reacts.size.toString()
+
+            if(value!=null){
+                updateUI(value)
+                if(!value.reacts.isNullOrEmpty()){
+                    binding.reactText.text = value.reacts.size.toString()
+                }
+                else{
+                    binding.reactText.text = "0"
+                }
+            }
+
         })
 
         viewModel.imageUriList.observe(viewLifecycleOwner, {

@@ -2,6 +2,7 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sushmoyr.shikhon.backend.data.Comment
@@ -15,7 +16,7 @@ class CommentsAdapter() : RecyclerView.Adapter<CommentsAdapter.MyViewHolder>() {
     private var comments = emptyList<Comment>()
     private var users = emptyList<User>()
 
-    class MyViewHolder(val binding: CommentsLayoutBinding) :
+    inner class MyViewHolder(val binding: CommentsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(currentItem: Comment) {
@@ -25,13 +26,24 @@ class CommentsAdapter() : RecyclerView.Adapter<CommentsAdapter.MyViewHolder>() {
             }) }
 
             */
-            binding.commentTime.text = currentItem.time
-            binding.content.text = currentItem.content
-            binding.userNameCm.text = currentItem.uid
+            binding.comment = currentItem
+            val userId = currentItem.uid
 
-            Log.d("comments", binding.commentTime.text.toString())
-            Log.d("comments", binding.content.text.toString())
-            Log.d("comments", binding.userNameCm.text.toString())
+            var commentUser : User? = null
+
+            for (user in users){
+                if(user.uuid == userId){
+                    commentUser = user
+                }
+            }
+
+            if(commentUser != null){
+                binding.user = commentUser
+            }
+            else{
+                binding.root.visibility = View.GONE
+            }
+
         }
     }
 
@@ -52,10 +64,16 @@ class CommentsAdapter() : RecyclerView.Adapter<CommentsAdapter.MyViewHolder>() {
         Log.d("Comments", comments.size.toString())
         return comments.size
     }
-
     fun setData(comments: List<Comment>) {
         this.comments = comments
         Log.d("comments", "Comments set data")
         notifyDataSetChanged()
     }
+
+    fun setUserData(users: List<User>) {
+        this.users = users
+        notifyDataSetChanged()
+    }
+
+
 }

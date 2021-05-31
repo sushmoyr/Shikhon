@@ -14,7 +14,7 @@ data class TrainingPost(
     val trainingName: String = "",
     val trainingDescription: String = "",
     val trainingLocation: String = "",
-    val postTime: String = "2021_05_25_06_43_26",
+    val postTime: String = "2021-06-01T04:01:37.749",
     val photoUris: List<String> = emptyList(),
     val reacts: List<String> = emptyList(),
     val comments: List<Comment> = emptyList()

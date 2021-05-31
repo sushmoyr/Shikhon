@@ -21,6 +21,32 @@ class FirebaseRepository {
     private val allUsers = MutableLiveData<List<User>>()
     private val singlePost = MutableLiveData<TrainingPost>()
 
+    init {
+        val ref = db.collection("allPosts")
+
+        ref.addSnapshotListener { snapshot, exception ->
+            if (exception != null || snapshot == null) {
+                Log.d("exception", "Post snapshot failed")
+                return@addSnapshotListener
+            }
+            val postList = snapshot.toObjects(TrainingPost::class.java)
+            allPosts.value = postList
+        }
+
+
+        val refUser = db.collection("users")
+
+        refUser.addSnapshotListener { value, error ->
+            if (error != null || value == null){
+                Log.d("exception", "user snapshot failed")
+            }
+            val userList = value?.toObjects(User::class.java)
+            if(userList!=null){
+                allUsers.value = userList
+            }
+        }
+    }
+
     fun addUserToDatabase(user: User) {
         db.collection(Constants.USER)
             .document(user.uuid)
@@ -107,34 +133,10 @@ class FirebaseRepository {
     }
 
     fun getPostData(): MutableLiveData<List<TrainingPost>> {
-        val ref = db.collection("allPosts")
-
-        ref.addSnapshotListener { snapshot, exception ->
-            if (exception != null || snapshot == null) {
-                Log.d("exception", "Post snapshot failed")
-                return@addSnapshotListener
-            }
-            val postList = snapshot.toObjects(TrainingPost::class.java)
-            allPosts.value = postList
-        }
-
-        Log.d("repocheck", "returning from updatePostData()")
-
         return allPosts
     }
 
     fun getAllUserData(): MutableLiveData<List<User>>{
-        val ref = db.collection("users")
-
-        ref.addSnapshotListener { value, error ->
-            if (error != null || value == null){
-                Log.d("exception", "user snapshot failed")
-            }
-            val userList = value?.toObjects(User::class.java)
-            if(userList!=null){
-                allUsers.value = userList
-            }
-        }
         return allUsers
     }
 
@@ -170,12 +172,23 @@ class FirebaseRepository {
     private fun deleteTrainerPostImageData(photoUris: List<String>) {
         val storageRef = storage.reference
         for (uri in photoUris){
-            storageRef.child(uri).delete().addOnSuccessListener {
-                Log.d("DeletePost", "Successfully Deleted File $uri")
-            }
+            deleteImage(uri)
+        }
+    }
+
+    private fun deleteImage(uri: String){
+        val storageRef = storage.reference
+
+        try {
+            storageRef.child(uri).delete()
+                .addOnSuccessListener {
+                    Log.d("DeletePost", "Successfully Deleted File $uri")
+                }
                 .addOnFailureListener {
                     Log.d("DeletePost", "Post delete Failed Nigga nigga")
                 }
+        } catch (e: Exception){
+            Log.d("Exception", "Exception in deleteImage. Exception: ${e.message.toString()}")
         }
     }
 

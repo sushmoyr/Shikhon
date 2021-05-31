@@ -8,6 +8,10 @@
             name="comment"
             type="com.sushmoyr.shikhon.backend.data.Comment" />
 
+        <variable
+            name="user"
+            type="com.sushmoyr.shikhon.backend.data.User" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,7 +31,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_applogo"
+                android:sourceUrl="@{user.profilePicUri}"
                 app:civ_border_color="@color/blue_grey_500"
                 app:civ_border_width="1dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +45,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:maxLines="1"
-                android:text="@string/john_doe"
+                android:hint="@string/john_doe"
+                android:text="@{user.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/profilePicCm"
                 app:layout_constraintTop_toTopOf="@+id/profilePicCm" />
@@ -52,7 +57,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="12 MAY 2021"
+                android:hint="12 MAY 2021"
+                android:parseDateTime="@{comment.time}"
                 app:layout_constraintBottom_toBottomOf="@+id/profilePicCm"
                 app:layout_constraintEnd_toEndOf="@+id/userNameCm"
                 app:layout_constraintStart_toEndOf="@+id/profilePicCm"
@@ -65,7 +71,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/dummy_comment"
+                android:hint="@string/dummy_comment"
+                android:text="@{comment.content}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/profilePicCm"

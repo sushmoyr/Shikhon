@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dummy_post_date"
-                        android:parseDate="@{post.postTime}"
+                        android:parseDateTime="@{post.postTime}"
                         app:layout_constraintBottom_toBottomOf="@+id/detailsUserPhoto"
                         app:layout_constraintStart_toStartOf="@+id/detailsUserName"
                         app:layout_constraintTop_toBottomOf="@+id/detailsUserName" />

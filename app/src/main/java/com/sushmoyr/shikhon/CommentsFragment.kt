@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.TrainingPost
+import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentCommentsBinding
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.CommentsAdapter
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.DetailsViewModel
@@ -26,6 +27,8 @@ class CommentsFragment : Fragment() {
 
     private var _binding: FragmentCommentsBinding? = null
     private val binding get() = _binding!!
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +39,10 @@ class CommentsFragment : Fragment() {
 
         model.post.observe(viewLifecycleOwner, { data->
             addCommentsToView(data)
+        })
+
+        model.allUser.observe(viewLifecycleOwner, {users ->
+            addAllUserToAdapter(users)
         })
 
         binding.addCommentButton.setOnClickListener{
@@ -49,7 +56,16 @@ class CommentsFragment : Fragment() {
             addNewComment(text)
         }
 
+
+
+
         return binding.root
+    }
+
+    private fun addAllUserToAdapter(users: List<User>?) {
+        if(users!=null){
+            adapter.setUserData(users)
+        }
     }
 
     private fun addNewComment(text: String) {

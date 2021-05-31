@@ -15,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.R
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class DataBindingAdapters {
@@ -34,22 +35,6 @@ class DataBindingAdapters {
                         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(this)
                 }
-            }
-        }
-
-        @BindingAdapter("android:parseDate")
-        @JvmStatic
-        fun TextView.parseDate(dateId: String?) {
-            if (dateId != null) {
-                val pattern = "yyyy_MM_dd_hh_mm_ss"
-                val dateText = dateId.substring(0, pattern.length)
-                Log.d("bindingAdapter", dateText)
-                val formatter = DateTimeFormatter.ofPattern(pattern)
-                val date = LocalDate.parse(dateText, formatter)
-                val time = "${dateText.substring(11, 13)}:${dateText.substring(14, 16)}"
-                val finalTimeStamp = "${date.dayOfMonth} ${date.month.name}, ${date.year} at $time"
-                Log.d("bindingAdapter", "Time = $finalTimeStamp")
-                text = finalTimeStamp
             }
         }
 
@@ -114,6 +99,22 @@ class DataBindingAdapters {
                     }
                     text = "${reacts.size} $other this"
                 }
+            }
+        }
+
+        @BindingAdapter("android:parseDateTime")
+        @JvmStatic
+        fun TextView.parseDateTime(dateTime: String?){
+            if(dateTime != null){
+                val id = this.id
+                val name = resources.getResourceName(id)
+                Log.d("error", "we are at ${name},")
+                val updateDateTime = LocalDateTime.parse(dateTime)
+                val finalDateStamp = "${updateDateTime.dayOfMonth} ${updateDateTime.month.name}, ${updateDateTime.year}"
+                val finalTimeStamp = "${updateDateTime.hour}:${updateDateTime.minute}"
+                val finalText = "$finalDateStamp at $finalTimeStamp"
+                Log.d("finalTimeText", finalText)
+                text = finalText
             }
         }
 

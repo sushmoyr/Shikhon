@@ -1,6 +1,7 @@
 package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,7 @@ class HomeFragment : Fragment() {
 
         homeModel.allPost.observe(viewLifecycleOwner, { data->
             adapter.setData(data)
+            Log.d("realtime", "post data changed")
         })
 
 

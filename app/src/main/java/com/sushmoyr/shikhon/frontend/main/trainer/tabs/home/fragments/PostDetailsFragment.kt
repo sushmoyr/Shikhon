@@ -31,7 +31,7 @@ class PostDetailsFragment : Fragment() {
     private var _binding: FragmentPostDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel : DetailsViewModel by viewModels()
+    private val viewModel : DetailsViewModel by activityViewModels()
 
     private val adapter : PostDetailsImageAdapter by lazy {
         PostDetailsImageAdapter()
@@ -56,19 +56,6 @@ class PostDetailsFragment : Fragment() {
         viewModel.post.observe(viewLifecycleOwner, {value ->
             updateUI(value)
             binding.reactText.text = value.reacts.size.toString()
-            //Log.d("BlaBla", "id: "+value.postId)
-            Log.d("BlaBla", "title: "+value.trainingName)
-            /*Log.d("BlaBla", "Loc: "+value.trainingLocation)
-            Log.d("BlaBla", "desc: "+value.trainingDescription)
-            Log.d("BlaBla", "time: "+value.postTime)
-            Log.d("BlaBla", "photos: "+value.photoUris.toString())*/
-            Log.d("BlaBla", "reacts: "+value.reacts.toString())
-            Log.d("BlaBla", "comments: "+value.comments.toString())
-            Log.d("BlaBla", "uid: "+value.user.uuid)
-            Log.d("BlaBla", "email: "+value.user.email)
-            Log.d("BlaBla", "profile: "+value.user.profilePicUri)
-            Log.d("BlaBla", "Name: "+value.user.name)
-            Log.d("BlaBla", "-----------------------------")
         })
 
         viewModel.imageUriList.observe(viewLifecycleOwner, {
@@ -79,6 +66,7 @@ class PostDetailsFragment : Fragment() {
 
         binding.commentButton.setOnClickListener {
             Toast.makeText(requireContext(), "Comment!!!", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_postDetailsFragment_to_commentsFragment)
         }
 
         return binding.root

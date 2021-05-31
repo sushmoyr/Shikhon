@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.utils.Constants
@@ -17,6 +18,7 @@ class FirebaseRepository {
     private val storage = Firebase.storage
 
     private val allPosts = MutableLiveData<List<TrainingPost>>()
+    private val allUsers = MutableLiveData<List<User>>()
     private val singlePost = MutableLiveData<TrainingPost>()
 
     fun addUserToDatabase(user: User) {
@@ -109,7 +111,7 @@ class FirebaseRepository {
 
         ref.addSnapshotListener { snapshot, exception ->
             if (exception != null || snapshot == null) {
-                Log.d("allPost", "Hoga marche")
+                Log.d("exception", "Post snapshot failed")
                 return@addSnapshotListener
             }
             val postList = snapshot.toObjects(TrainingPost::class.java)
@@ -119,6 +121,21 @@ class FirebaseRepository {
         Log.d("repocheck", "returning from updatePostData()")
 
         return allPosts
+    }
+
+    fun getAllUserData(): MutableLiveData<List<User>>{
+        val ref = db.collection("users")
+
+        ref.addSnapshotListener { value, error ->
+            if (error != null || value == null){
+                Log.d("exception", "user snapshot failed")
+            }
+            val userList = value?.toObjects(User::class.java)
+            if(userList!=null){
+                allUsers.value = userList
+            }
+        }
+        return allUsers
     }
 
     fun getSinglePost(postId: String): MutableLiveData<TrainingPost> {
@@ -160,5 +177,16 @@ class FirebaseRepository {
                     Log.d("DeletePost", "Post delete Failed Nigga nigga")
                 }
         }
+    }
+
+    fun updateCommentsData(postId: String, allComments: MutableList<Comment>) {
+            db.collection(Constants.POST_BASE_URL).document(postId)
+                .update("comments", allComments)
+                .addOnSuccessListener {
+                    Log.d("Comments", "Successfully added comments")
+                }
+                .addOnFailureListener {
+                    Log.d("Comments", "Comments adding failed")
+                }
     }
 }

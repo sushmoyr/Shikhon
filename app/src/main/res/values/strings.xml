@@ -17,4 +17,6 @@
     <string name="update_post">Update post</string>
     <string name="no_like_text">Nobody liked this post yet</string>
     <string name="self_like_text_1">"You and "</string>
+    <string name="john_doe">John Doe</string>
+    <string name="dummy_comment">I was wondering if it is a comment I should make, I should make it interesting. But I don\'t have the energy to do something like that lmao</string>
 </resources>

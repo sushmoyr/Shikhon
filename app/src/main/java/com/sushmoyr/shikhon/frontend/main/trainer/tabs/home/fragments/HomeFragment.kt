@@ -62,25 +62,6 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
-        /*val ref = firebaseFirestore.collection("allPosts")
-
-        ref.addSnapshotListener{ snapshot, exception->
-            if(exception != null || snapshot==null ){
-                Log.d(debug, "Hoga marche")
-                return@addSnapshotListener
-            }
-
-            val postList = snapshot.toObjects(TrainingPost::class.java)
-            posts.clear().also {
-                Log.d(debug, "Cleared posts")
-            }
-            posts.addAll(postList).also {
-                Log.d(debug, "Added post and size = ${posts.size}")
-            }
-            adapter.setData(posts)
-        }*/
-
         return binding.root
     }
 

@@ -46,6 +46,9 @@
             android:name="detailPostId"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_postDetailsFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <dialog
         android:id="@+id/postOptionsFragment"
@@ -68,4 +71,9 @@
             android:id="@+id/action_updatePostFragment_to_postDetailsFragment"
             app:destination="@id/postDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.sushmoyr.shikhon.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments" />
 </navigation>

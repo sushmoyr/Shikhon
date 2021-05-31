@@ -4,15 +4,22 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 class DetailsViewModel: ViewModel() {
 
     private val repository = FirebaseRepository()
     var post : MutableLiveData<TrainingPost> = MutableLiveData(TrainingPost())
     val imageUriList = MutableLiveData<List<String>>()
+    val allUser = repository.getAllUserData()
+
+    val auth = Firebase.auth
 
     fun getPost(postId: String){
         post = repository.getSinglePost(postId)
@@ -23,6 +30,23 @@ class DetailsViewModel: ViewModel() {
             imageUriList.value = repository.getPhotoUrls(photoUris)
         }
     }
+    
+    fun addNewComment(comment: String){
+        val allComments = post.value!!.comments.toMutableList()
+        val newComment = Comment(auth.currentUser!!.uid, getCurrentTime(), comment)
+        allComments.add(newComment)
+        Log.d("comments", "CommentSize: ${allComments.size}")
+        Log.d("comments",newComment.uid)
+        Log.d("comments",newComment.time)
+        Log.d("comments",newComment.content)
+        val postId = post.value!!.postId
+        repository.updateCommentsData(postId, allComments)
+    }
+
+    private fun getCurrentTime(): String {
+        return LocalDateTime.now().toString()
+    }
+
 
     fun cyclePostReact(uid: String, post: TrainingPost): Boolean{
         var cycleValue: Boolean

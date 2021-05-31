@@ -121,7 +121,6 @@
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/floating_action_button"
                 android:setReactColor="@{post.reacts}"
-                android:userId="@{post.user.uuid}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/postPhotos"
                 app:srcCompat="@drawable/ic_favorite" />

@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_post_title">Android Development Basics</string>
     <string name="dummy_post_date">12 Jan 2021</string>
-    <string name="dummy_post_content">Some random jibberinsh course which will help you to learn android native with kotlin java and whatever shit you want in a shitty and stupid fucking way</string>
+    <string name="dummy_post_content">Some random gibberish course which will help you to learn android native with kotlin java and whatever shit you want in a shitty and stupid fucking way</string>
     <string name="dummy_post_loaction">Fucker\'s Home</string>
     <string name="_100">100</string>
     <string name="cancel">Cancel</string>
@@ -15,4 +15,6 @@
     <string name="training_description">Training Description</string>
     <string name="training_location">Training Location</string>
     <string name="update_post">Update post</string>
+    <string name="no_like_text">Nobody liked this post yet</string>
+    <string name="self_like_text_1">"You and "</string>
 </resources>

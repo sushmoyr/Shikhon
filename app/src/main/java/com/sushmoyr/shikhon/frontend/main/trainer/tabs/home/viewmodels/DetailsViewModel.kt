@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class DetailsViewModel: ViewModel() {
 
     private val repository = FirebaseRepository()
-    var post = MutableLiveData<TrainingPost>()
+    var post : MutableLiveData<TrainingPost> = MutableLiveData(TrainingPost())
     val imageUriList = MutableLiveData<List<String>>()
 
     fun getPost(postId: String){

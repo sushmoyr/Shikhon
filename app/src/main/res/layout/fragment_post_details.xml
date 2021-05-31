@@ -131,6 +131,7 @@
                                 android:id="@+id/reactIcon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:setReactColor="@{post.reacts}"
                                 android:src="@drawable/ic_favorite" />
 
                             <TextView
@@ -193,6 +194,20 @@
 
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/reactInfo"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/self_like_text_1"
+                        android:setReactionText="@{post.reacts}"
+                        app:layout_constraintBottom_toTopOf="@+id/reactCommentLayout"
+                        app:layout_constraintEnd_toEndOf="@+id/detailsPostContent"
+                        app:layout_constraintStart_toStartOf="@+id/detailsPostContent"
+                        app:layout_constraintTop_toBottomOf="@+id/detailsPostContent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

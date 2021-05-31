@@ -33,8 +33,6 @@ class PostDetailsFragment : Fragment() {
 
     private val viewModel : DetailsViewModel by viewModels()
 
-    private lateinit var images: MutableList<Bitmap>
-
     private val adapter : PostDetailsImageAdapter by lazy {
         PostDetailsImageAdapter()
     }
@@ -49,8 +47,6 @@ class PostDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentPostDetailsBinding.inflate(inflater, container, false)
 
-        images = mutableListOf()
-
         //model.clearImageList()
         val postId = args.detailPostId
         if(postId!=null){
@@ -59,28 +55,27 @@ class PostDetailsFragment : Fragment() {
 
         viewModel.post.observe(viewLifecycleOwner, {value ->
             updateUI(value)
-            Log.d("BlaBla", value.postId)
-            Log.d("BlaBla", value.trainingName)
-            Log.d("BlaBla", value.trainingLocation)
-            Log.d("BlaBla", value.trainingDescription)
-            Log.d("BlaBla", value.postTime)
-            Log.d("BlaBla", value.photoUris.toString())
-            Log.d("BlaBla", value.reacts.toString())
-            Log.d("BlaBla", value.comments.toString())
-            Log.d("BlaBla", value.user.uuid)
-            Log.d("BlaBla", value.user.email)
-            Log.d("BlaBla", value.user.profilePicUri)
-            Log.d("BlaBla", value.user.name)
-            Log.d("BlaBla", value.user.profilePicUri)
+            binding.reactText.text = value.reacts.size.toString()
+            //Log.d("BlaBla", "id: "+value.postId)
+            Log.d("BlaBla", "title: "+value.trainingName)
+            /*Log.d("BlaBla", "Loc: "+value.trainingLocation)
+            Log.d("BlaBla", "desc: "+value.trainingDescription)
+            Log.d("BlaBla", "time: "+value.postTime)
+            Log.d("BlaBla", "photos: "+value.photoUris.toString())*/
+            Log.d("BlaBla", "reacts: "+value.reacts.toString())
+            Log.d("BlaBla", "comments: "+value.comments.toString())
+            Log.d("BlaBla", "uid: "+value.user.uuid)
+            Log.d("BlaBla", "email: "+value.user.email)
+            Log.d("BlaBla", "profile: "+value.user.profilePicUri)
+            Log.d("BlaBla", "Name: "+value.user.name)
+            Log.d("BlaBla", "-----------------------------")
         })
 
         viewModel.imageUriList.observe(viewLifecycleOwner, {
             updateRecyclerView(it)
         })
 
-        binding.reactButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Liked!!!", Toast.LENGTH_SHORT).show()
-        }
+
 
         binding.commentButton.setOnClickListener {
             Toast.makeText(requireContext(), "Comment!!!", Toast.LENGTH_SHORT).show()
@@ -113,6 +108,11 @@ class PostDetailsFragment : Fragment() {
             else{
                 binding.moreOptions.visibility = View.GONE
                 binding.reactCommentLayout.weightSum = 2F
+            }
+
+            binding.reactButton.setOnClickListener {
+                Toast.makeText(requireContext(), "Liked!!!", Toast.LENGTH_SHORT).show()
+                viewModel.cyclePostReact(auth.uid!!, post)
             }
         }
     }

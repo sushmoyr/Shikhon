@@ -12,14 +12,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.TrainingPost
+import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.TrainerPostLayoutBinding
 
 
 class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : RecyclerView.Adapter<PostListAdapter.MyViewHolder>() {
 
     private var postList = emptyList<TrainingPost>()
+    var userList = emptyList<User>()
 
-    class MyViewHolder(val binding: TrainerPostLayoutBinding, onItemClicked: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyViewHolder(val binding: TrainerPostLayoutBinding, onItemClicked: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
@@ -31,6 +33,12 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
             binding.post = currentItem
             binding.numberOfReacts.text = currentItem.reacts.size.toString()
             binding.numberOfComments.text = currentItem.comments.size.toString()
+
+            for (user in userList){
+                if(user.uuid == currentItem.user.uuid){
+                    binding.user = user
+                }
+            }
 
             if (currentItem.photoUris.isNotEmpty()) {
                 binding.postPhotos.visibility = View.VISIBLE
@@ -68,6 +76,11 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
     fun setData(postList: List<TrainingPost>) {
         this.postList = postList
         Log.d("Debug", "RV data set")
+        notifyDataSetChanged()
+    }
+
+    fun setUser(userList: List<User>){
+        this.userList = userList
         notifyDataSetChanged()
     }
 

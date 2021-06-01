@@ -2,15 +2,19 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.extras
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.gms.dynamic.SupportFragmentWrapper
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.databinding.FragmentExtrasBinding
 import com.sushmoyr.shikhon.frontend.initials.PreTaskActivity
+import java.util.*
 
 class ExtrasFragment : Fragment() {
 
@@ -30,15 +34,27 @@ class ExtrasFragment : Fragment() {
         _binding = FragmentExtrasBinding.inflate(layoutInflater, container, false)
 
         binding.logoutButton.setOnClickListener {
-            if (auth.currentUser != null) {
-                auth.signOut()
-                val intent = Intent(activity, PreTaskActivity::class.java)
-                activity?.startActivity(intent)
-                activity?.finish()
-            }
+            val datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select birth date")
+                    .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+                    .build()
+            datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
 
+            datePicker.addOnPositiveButtonClickListener {
+                Log.d("DatePicker", "Picked: ${datePicker.selection.toString()}")
+            }
         }
 
         return binding.root
+    }
+
+    private fun signOut(){
+        if (auth.currentUser != null) {
+            auth.signOut()
+            val intent = Intent(activity, PreTaskActivity::class.java)
+            activity?.startActivity(intent)
+            activity?.finish()
+        }
     }
 }

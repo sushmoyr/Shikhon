@@ -16,9 +16,16 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile.ProfileFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile.TrainerProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/postFragment"
         android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.post.PostFragment"
@@ -49,6 +56,7 @@
         <action
             android:id="@+id/action_postDetailsFragment_to_commentsFragment"
             app:destination="@id/commentsFragment" />
+        <argument android:name="detailPostUserId" />
     </fragment>
     <dialog
         android:id="@+id/postOptionsFragment"
@@ -76,4 +84,13 @@
         android:name="com.sushmoyr.shikhon.CommentsFragment"
         android:label="fragment_comments"
         tools:layout="@layout/fragment_comments" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.sushmoyr.shikhon.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.sushmoyr.shikhon.backend.data.User" />
+    </fragment>
 </navigation>

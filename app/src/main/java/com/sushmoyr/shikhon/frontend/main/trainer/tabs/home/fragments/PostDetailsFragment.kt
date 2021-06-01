@@ -49,6 +49,7 @@ class PostDetailsFragment : Fragment() {
 
         //model.clearImageList()
         val postId = args.detailPostId
+        val userId = args.detailPostUserId
         if(postId!=null){
             viewModel.getPost(postId)
         }
@@ -69,6 +70,14 @@ class PostDetailsFragment : Fragment() {
 
         viewModel.imageUriList.observe(viewLifecycleOwner, {
             updateRecyclerView(it)
+        })
+
+        viewModel.allUser.observe(viewLifecycleOwner, { users ->
+            for (user in users){
+                if(user.uuid == userId){
+                    binding.user = user
+                }
+            }
         })
 
 

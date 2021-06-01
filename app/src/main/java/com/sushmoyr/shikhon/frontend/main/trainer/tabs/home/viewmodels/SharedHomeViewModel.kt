@@ -28,12 +28,6 @@ class SharedHomeViewModel: ViewModel() {
     }
 
 
-
-
-    /*fun clearImageList(){
-        imageList.clear()
-    }*/
-
     fun deletePost(){
         val post = post.value
         if (post != null) {

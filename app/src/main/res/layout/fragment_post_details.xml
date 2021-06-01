@@ -7,6 +7,9 @@
         <variable
             name="post"
             type="com.sushmoyr.shikhon.backend.data.TrainingPost" />
+        <variable
+            name="user"
+            type="com.sushmoyr.shikhon.backend.data.User" />
 
     </data>
 
@@ -38,7 +41,7 @@
                         android:layout_height="60dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:sourceUrl="@{post.user.profilePicUri}"
+                        android:sourceUrl="@{user.profilePicUri}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +52,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/raleway_semibold"
-                        android:text="@{post.user.name}"
+                        android:text="@{user.name}"
                         android:hint="John Doe"
                         android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"

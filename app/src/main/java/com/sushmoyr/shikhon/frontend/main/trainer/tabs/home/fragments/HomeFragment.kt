@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
+import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentHomeBinding
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.HomeViewModel
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
@@ -26,14 +27,12 @@ class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var posts : MutableList<TrainingPost>
 
     private lateinit var firebaseFirestore: FirebaseFirestore
 
     private val adapter: PostListAdapter by lazy {
         PostListAdapter {//OnClick event
-            model.setPostData(it)
-            val directions = HomeFragmentDirections.actionHomeFragmentToPostDetailsFragment(it.postId)
+            val directions = HomeFragmentDirections.actionHomeFragmentToPostDetailsFragment(it.postId, it.user.uuid)
             findNavController().navigate(directions)
         }
     }
@@ -51,11 +50,14 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        posts = mutableListOf()
-
         homeModel.allPost.observe(viewLifecycleOwner, { data->
             adapter.setData(data)
             Log.d("realtime", "post data changed")
+        })
+
+        homeModel.allUsers.observe(viewLifecycleOwner, { users ->
+            adapter.setUser(users)
+            Log.d("realtime","User data changed")
         })
 
 

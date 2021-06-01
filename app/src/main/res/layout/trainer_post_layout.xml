@@ -7,6 +7,10 @@
         <variable
             name="post"
             type="com.sushmoyr.shikhon.backend.data.TrainingPost" />
+
+        <variable
+            name="user"
+            type="com.sushmoyr.shikhon.backend.data.User" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -26,7 +30,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:sourceUrl="@{post.user.profilePicUri}"
+                android:sourceUrl="@{user.profilePicUri}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/raleway_semibold"
-                android:text="@{post.user.name}"
+                android:text="@{user.name}"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/profilePic"
                 app:layout_constraintTop_toTopOf="@+id/profilePic" />

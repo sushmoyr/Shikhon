@@ -22,18 +22,6 @@ class FirebaseRepository {
     private val singlePost = MutableLiveData<TrainingPost>()
 
     init {
-        val ref = db.collection("allPosts")
-
-        ref.addSnapshotListener { snapshot, exception ->
-            if (exception != null || snapshot == null) {
-                Log.d("exception", "Post snapshot failed")
-                return@addSnapshotListener
-            }
-            val postList = snapshot.toObjects(TrainingPost::class.java)
-            allPosts.value = postList
-        }
-
-
         val refUser = db.collection("users")
 
         refUser.addSnapshotListener { value, error ->
@@ -133,6 +121,20 @@ class FirebaseRepository {
     }
 
     fun getPostData(): MutableLiveData<List<TrainingPost>> {
+
+        val ref = db.collection("allPosts")
+
+        ref.orderBy("postTime", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+            if (exception != null || snapshot == null) {
+                Log.d("exception", "Post snapshot failed")
+                return@addSnapshotListener
+            }
+            val postList = snapshot.toObjects(TrainingPost::class.java)
+            allPosts.value = postList
+        }
+
+
         return allPosts
     }
 

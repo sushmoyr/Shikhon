@@ -54,4 +54,5 @@ class TrainerActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
     }
+
 }

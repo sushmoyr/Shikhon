@@ -7,93 +7,81 @@
         <variable
             name="user"
             type="com.sushmoyr.shikhon.backend.data.User" />
-
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".frontend.main.trainer.tabs.profile.TrainerProfileFragment">
+        tools:context=".frontend.main.trainer.tabs.profile.VisitedProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1000dp">
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/visitedTrainerCover"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:foreground="@drawable/image_foreground"
+                android:maxHeight="260dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cover_placeholder"
                 android:sourceUrl="@{user.coverPhotoUri}"
+                android:src="@drawable/cover_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilePictureUser"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/profile_placeholder"
+                android:id="@+id/circleImageView"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:scaleType="centerCrop"
                 android:sourceUrl="@{user.profilePicUri}"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                app:layout_constraintStart_toStartOf="@+id/imageView7"
-                app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+                android:src="@drawable/profile_placeholder"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/visitedTrainerCover"
+                app:layout_constraintEnd_toEndOf="@+id/visitedTrainerCover"
+                app:layout_constraintStart_toStartOf="@+id/visitedTrainerCover"
+                app:layout_constraintTop_toBottomOf="@+id/visitedTrainerCover" />
 
             <TextView
-                android:id="@+id/userProfileName"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/raleway_bold"
-                android:text="@{user.name}"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profilePictureUser" />
-
-            <TextView
-                android:id="@+id/textView9"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:text="@{user.bio}"
-                android:textAlignment="viewStart"
-                app:layout_constraintBottom_toBottomOf="@+id/profilePictureUser"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profilePictureUser"
-                app:layout_constraintTop_toBottomOf="@+id/imageView7" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/editProfileButton"
+                android:id="@+id/ProfileName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Edit Profile"
-                app:icon="@drawable/ic_edit"
-                app:cornerRadius="8dp"
-                app:iconGravity="textStart"
+                android:text="@{user.name}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profilePictureUser" />
+                app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/aboutSection"
+            <TextView
+                android:id="@+id/profileBio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/editProfileButton"
-                app:layout_constraintStart_toStartOf="@+id/editProfileButton"
-                app:layout_constraintTop_toBottomOf="@+id/editProfileButton">
+                android:layout_marginTop="8dp"
+                android:hint="@string/dummy_comment"
+                android:text="@{user.bio}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="@+id/ProfileName"
+                app:layout_constraintStart_toStartOf="@+id/ProfileName"
+                app:layout_constraintTop_toBottomOf="@+id/ProfileName" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/aboutSectionVisitedT"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+                app:layout_editor_absoluteY="900dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -101,16 +89,16 @@
 
                     <!-- About section info Layout begins here -->
                     <LinearLayout
-                        android:id="@+id/aboutSectionInfoLayout"
+                        android:id="@+id/aboutSectionInfoLayoutVisitedT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
                         android:orientation="vertical"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/aboutSectionTitleBar">
+                        app:layout_constraintTop_toBottomOf="@+id/aboutSectionTitleBarVisitedT">
 
 
                         <LinearLayout
@@ -241,7 +229,7 @@
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/aboutSectionTitleBar"
+                        android:id="@+id/aboutSectionTitleBarVisitedT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -249,7 +237,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/textView10"
+                            android:id="@+id/aboutSectionHeader"
                             style="@style/TextAppearance.MaterialComponents.Headline5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -263,14 +251,14 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/aboutSectionExpandButton"
+                            android:id="@+id/aboutSectionExpandButtonVisitedT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/ic_arrow_down"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                            app:layout_constraintBottom_toBottomOf="@+id/aboutSectionHeader"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textView10" />
+                            app:layout_constraintTop_toTopOf="@+id/aboutSectionHeader" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -279,50 +267,84 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/textView17"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/ReviewTitleProfile"
                 android:layout_marginTop="8dp"
-                android:text="@string/ratings_amp_reviews"
                 android:alpha="0.8"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/aboutSection"
-                app:layout_constraintStart_toStartOf="@+id/aboutSection"
-                app:layout_constraintTop_toBottomOf="@+id/aboutSection"
-                />
+                android:paddingStart="8dp"
+
+                android:text="Posts"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintEnd_toEndOf="@+id/aboutSectionVisitedT"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/aboutSectionVisitedT"
+                app:layout_constraintTop_toBottomOf="@+id/visited_review_rv" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/visited_profile_posts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_review_rv"
-                app:layout_constraintEnd_toEndOf="@+id/ReviewTitleProfile"
-                app:layout_constraintStart_toStartOf="@+id/ReviewTitleProfile"
-                app:layout_constraintTop_toBottomOf="@+id/ReviewTitleProfile"/>
+                app:layout_constraintEnd_toEndOf="@+id/textView17"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/textView17"
+                tools:itemCount="3"
+                tools:listitem="@layout/trainer_post_layout" />
+
+            <LinearLayout
+                android:id="@+id/buttonsLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/profileBio"
+                app:layout_constraintStart_toStartOf="@+id/profileBio"
+                app:layout_constraintTop_toBottomOf="@+id/profileBio"
+                app:layout_constraintWidth_percent="0.8">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/followButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:text="Follow"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_person_add"
+                    app:iconGravity="textStart" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/rateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="Rate"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_star_half"
+                    app:iconGravity="textStart" />
+            </LinearLayout>
 
             <TextView
-                android:elevation="8dp"
-                android:id="@+id/textView11"
-                android:layout_width="0dp"
+                android:id="@+id/reviews_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Posts"
                 android:alpha="0.8"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:padding="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/profile_review_rv"
-                app:layout_constraintStart_toStartOf="@+id/profile_review_rv"
-                app:layout_constraintTop_toBottomOf="@+id/profile_review_rv" />
+                android:text="Ratings and Reviews"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintStart_toStartOf="@+id/aboutSectionVisitedT"
+                app:layout_constraintTop_toBottomOf="@+id/aboutSectionVisitedT" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/profile_posts"
+                android:id="@+id/visited_review_rv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:itemCount="3"
-                tools:listitem="@layout/trainer_post_layout"
-                app:layout_constraintEnd_toEndOf="@+id/textView11"
-                app:layout_constraintStart_toStartOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/aboutSectionVisitedT"
+                app:layout_constraintStart_toStartOf="@+id/reviews_title"
+                app:layout_constraintTop_toBottomOf="@+id/reviews_title" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

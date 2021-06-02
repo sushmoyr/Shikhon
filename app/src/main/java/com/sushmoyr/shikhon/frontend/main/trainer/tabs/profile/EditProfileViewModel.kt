@@ -4,10 +4,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.utils.Constants
+import kotlinx.coroutines.launch
 
 class EditProfileViewModel: ViewModel() {
 
@@ -86,6 +88,8 @@ class EditProfileViewModel: ViewModel() {
     }
 
     private fun uploadImage(source: Uri, location: String){
-        repository.uploadImage(source, location)
+        viewModelScope.launch {
+            repository.uploadImage(source, location)
+        }
     }
 }

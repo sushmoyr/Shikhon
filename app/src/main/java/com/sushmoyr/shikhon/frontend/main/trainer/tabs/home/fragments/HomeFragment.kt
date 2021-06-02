@@ -20,7 +20,6 @@ import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHom
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostListAdapter
 
 class HomeFragment : Fragment() {
-    private val model: SharedHomeViewModel by activityViewModels()
     private val homeModel: HomeViewModel by viewModels()
     private val debug = "Debug"
 

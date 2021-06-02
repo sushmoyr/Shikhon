@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.Comment
+import com.sushmoyr.shikhon.backend.data.Review
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.utils.Constants
@@ -22,6 +23,7 @@ class FirebaseRepository {
 
     private val allPosts = MutableLiveData<List<TrainingPost>>()
     private val allUsers = MutableLiveData<List<User>>()
+    private val allReviews = MutableLiveData<List<Review>>()
     private val singlePost = MutableLiveData<TrainingPost>()
 
     init {
@@ -34,6 +36,17 @@ class FirebaseRepository {
             val userList = value?.toObjects(User::class.java)
             if(userList!=null){
                 allUsers.value = userList
+            }
+        }
+
+        val refReview = db.collection("allReview")
+        refReview.addSnapshotListener { value, error ->
+            if (error != null || value == null){
+                Log.d("exception", "user snapshot failed")
+            }
+            val reviewList = value?.toObjects(Review::class.java)
+            if(reviewList!=null){
+                allReviews.value = reviewList
             }
         }
     }
@@ -61,6 +74,11 @@ class FirebaseRepository {
                 Log.d("Debug", "Something went wrong")
             }
 
+    }
+
+    fun addReviewToDatabase(review: Review){
+        val ref = db.collection("allReview").document()
+            .set(review)
     }
 
     private suspend fun getCurrentUserDataAsync(uid: String): DocumentSnapshot {
@@ -145,6 +163,10 @@ class FirebaseRepository {
         return allUsers
     }
 
+    fun getAllReviews() : MutableLiveData<List<Review>>{
+        return allReviews
+    }
+
     fun getSinglePost(postId: String): MutableLiveData<TrainingPost> {
         val ref = db.collection(Constants.POST_BASE_URL).document(postId)
 
@@ -208,9 +230,9 @@ class FirebaseRepository {
                 }
     }
 
-    fun uploadImage(source: Uri, location: String) {
+    suspend fun uploadImage(source: Uri, location: String) {
         val storage = FirebaseStorage.getInstance().getReference(location)
-        storage.putFile(source)
+        storage.putFile(source).await()
     }
 
     fun updateUser(newUser: User): Task<Void> {

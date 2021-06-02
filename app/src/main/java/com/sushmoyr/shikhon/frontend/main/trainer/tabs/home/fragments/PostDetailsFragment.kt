@@ -1,4 +1,4 @@
-package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
+ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -79,6 +79,16 @@ class PostDetailsFragment : Fragment() {
                 }
             }
         })
+
+        binding.detailsUserName.setOnClickListener {
+            if (userId == auth.uid){
+                findNavController().navigate(R.id.action_global_profileFragment)
+            }
+            else{
+                val directions = PostDetailsFragmentDirections.actionPostDetailsFragmentToVisitedProfileFragment(userId)
+                findNavController().navigate(directions)
+            }
+        }
 
 
 

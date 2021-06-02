@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
+import com.sushmoyr.shikhon.backend.data.Review
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentProfileBinding
@@ -22,7 +24,7 @@ import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostLis
 
 class TrainerProfileFragment : Fragment() {
 
-    val model: TrainerProfileViewModel by viewModels()
+    val model: ProfileViewModel by activityViewModels()
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +42,10 @@ class TrainerProfileFragment : Fragment() {
         }
     }
 
+    private val reviewListAdapter: ReviewListAdapter by lazy {
+        ReviewListAdapter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +58,7 @@ class TrainerProfileFragment : Fragment() {
 
 
         setUpPostsRecyclerView()
+        setUpReviewRecyclerView()
 
         model.allPost.observe(viewLifecycleOwner, { posts->
             val userPosts : MutableList<TrainingPost> = mutableListOf()
@@ -66,7 +73,10 @@ class TrainerProfileFragment : Fragment() {
         })
 
         model.userList.observe(viewLifecycleOwner, { users ->
+
             postListAdapter.setUser(users)
+            reviewListAdapter.setUser(users)
+
             users.forEach { user ->
                 if(user.uuid == uid){
                     //set user to layout
@@ -74,6 +84,17 @@ class TrainerProfileFragment : Fragment() {
                     profile = user
                 }
             }
+        })
+
+        model.allReviews.observe(viewLifecycleOwner, { reviews->
+            val reviewList: MutableList<Review> = mutableListOf()
+
+            reviews.forEach { review->
+                if(review.reviewedToUid == uid)
+                    reviewList.add(review)
+            }
+
+            reviewListAdapter.setData(reviewList)
         })
 
         //edit profile
@@ -112,9 +133,20 @@ class TrainerProfileFragment : Fragment() {
         return binding.root
     }
 
+    private fun setUpReviewRecyclerView() {
+        val reviewContainer = binding.profileReviewRv
+        reviewContainer.adapter = reviewListAdapter
+        reviewContainer.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
+    }
+
     private fun setUpPostsRecyclerView() {
         val postContainer = binding.profilePosts
         postContainer.adapter = postListAdapter
         postContainer.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

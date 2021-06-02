@@ -34,16 +34,7 @@ class ExtrasFragment : Fragment() {
         _binding = FragmentExtrasBinding.inflate(layoutInflater, container, false)
 
         binding.logoutButton.setOnClickListener {
-            val datePicker =
-                MaterialDatePicker.Builder.datePicker()
-                    .setTitleText("Select birth date")
-                    .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-                    .build()
-            datePicker.show(requireActivity().supportFragmentManager, "DatePicker")
-
-            datePicker.addOnPositiveButtonClickListener {
-                Log.d("DatePicker", "Picked: ${datePicker.selection.toString()}")
-            }
+            signOut()
         }
 
         return binding.root

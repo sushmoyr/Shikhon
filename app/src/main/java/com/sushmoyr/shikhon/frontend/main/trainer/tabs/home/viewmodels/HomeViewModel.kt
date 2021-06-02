@@ -12,4 +12,8 @@ class HomeViewModel : ViewModel() {
     val allPost : LiveData<List<TrainingPost>> = repo.getPostData()
     val allUsers : LiveData<List<User>> = repo.getAllUserData()
 
+    fun sortPostsByReact(){
+        allPost.value?.sortedBy { it.reacts.size }
+    }
+
 }

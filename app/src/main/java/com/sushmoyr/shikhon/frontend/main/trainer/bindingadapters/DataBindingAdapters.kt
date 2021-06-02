@@ -14,27 +14,35 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.R
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class DataBindingAdapters {
     companion object {
         @BindingAdapter("android:sourceUrl")
         @JvmStatic
-        fun ImageView.sourceUrl(url: String?) {
+        fun ImageView.sourceUrl(url: Any?) {
 
-            if (url != null) {
-                val storageRef = Firebase.storage.reference
-                storageRef.child(url).downloadUrl.addOnSuccessListener {
-                    Log.d("bindingAdapter", "Profile pic ur success : $it")
-                    Glide.with(this)
-                        .load(Uri.parse(it.toString()))
-                        .override(width, height)
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .into(this)
+            if (url is String) {
+                if (url != null) {
+                    val storageRef = Firebase.storage.reference
+                    storageRef.child(url).downloadUrl.addOnSuccessListener {
+                        Log.d("bindingAdapter", "Profile pic ur success : $it")
+                        Glide.with(this)
+                            .load(Uri.parse(it.toString()))
+                            .override(width, height)
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .into(this)
+                    }
                 }
+            }
+            else if(url is Uri){
+                Glide.with(context)
+                    .load(url)
+                    .override(width, height)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(this)
             }
         }
 
@@ -85,9 +93,8 @@ class DataBindingAdapters {
                     }
                     text = if (reacts.size == 1) {
                         "You liked this post"
-                    }
-                    else{
-                        "You and ${reacts.size-1} $other this"
+                    } else {
+                        "You and ${reacts.size - 1} $other this"
                     }
 
                 }
@@ -104,13 +111,14 @@ class DataBindingAdapters {
 
         @BindingAdapter("android:parseDateTime")
         @JvmStatic
-        fun TextView.parseDateTime(dateTime: String?){
-            if(dateTime != null){
+        fun TextView.parseDateTime(dateTime: String?) {
+            if (dateTime != null) {
                 val id = this.id
                 val name = resources.getResourceName(id)
                 Log.d("error", "we are at ${name},")
                 val updateDateTime = LocalDateTime.parse(dateTime)
-                val finalDateStamp = "${updateDateTime.dayOfMonth} ${updateDateTime.month.name}, ${updateDateTime.year}"
+                val finalDateStamp =
+                    "${updateDateTime.dayOfMonth} ${updateDateTime.month.name}, ${updateDateTime.year}"
                 val finalTimeStamp = "${updateDateTime.hour}:${updateDateTime.minute}"
                 val finalText = "$finalDateStamp at $finalTimeStamp"
                 Log.d("finalTimeText", finalText)

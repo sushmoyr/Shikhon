@@ -1,11 +1,14 @@
 package com.sushmoyr.shikhon.backend.repository
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.TrainingPost
@@ -203,5 +206,15 @@ class FirebaseRepository {
                 .addOnFailureListener {
                     Log.d("Comments", "Comments adding failed")
                 }
+    }
+
+    fun uploadImage(source: Uri, location: String) {
+        val storage = FirebaseStorage.getInstance().getReference(location)
+        storage.putFile(source)
+    }
+
+    fun updateUser(newUser: User): Task<Void> {
+        return db.collection(Constants.USER_BASE_URL).document(newUser.uuid)
+            .set(newUser)
     }
 }

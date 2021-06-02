@@ -2,9 +2,11 @@ package com.sushmoyr.shikhon.frontend.main.trainer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -40,6 +42,8 @@ class TrainerActivity : AppCompatActivity() {
                 firebaseRepository.getCurrentUserData(currentUser.uid)
             }
         }
+
+        Log.d("hello", "In Activity: ${resources.getResourceName(navController.currentDestination?.id!!)}")
 
 
 

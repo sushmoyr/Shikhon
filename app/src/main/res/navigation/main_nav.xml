@@ -86,11 +86,14 @@
         tools:layout="@layout/fragment_comments" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.sushmoyr.shikhon.EditProfileFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" >
         <argument
             android:name="user"
             app:argType="com.sushmoyr.shikhon.backend.data.User" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

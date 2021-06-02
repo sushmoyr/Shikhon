@@ -130,8 +130,6 @@ class PostFragment : Fragment() {
 
     private fun postImages(allImageLocation: ArrayList<String>) {
 
-
-
         val storage = FirebaseStorage.getInstance()
 
         for (i in 0 until allImages.count()) {

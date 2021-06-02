@@ -12,7 +12,9 @@ object Verify {
     fun listenToText(view: EditText, error: String) {
         view.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+                if(s.isNullOrEmpty()){
+                    view.error = error
+                }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

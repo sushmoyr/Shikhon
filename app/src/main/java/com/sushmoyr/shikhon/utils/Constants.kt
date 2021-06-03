@@ -9,7 +9,7 @@ object Constants {
     const val USER = "users"
     const val ONBOARDING_STATE = "onboardingState"
     const val ONBOARDING_FINISHED = "onboardingFinished"
-    const val DEFAULT_PROFILE_PIC_URI = "images/avatar-placeholder.png"
+    const val DEFAULT_PROFILE_PIC_URI = "https://firebasestorage.googleapis.com/v0/b/shikhon-60bba.appspot.com/o/images%2Favatar-placeholder.png?alt=media&token=d2363d2b-dc0f-47d5-b879-d7219bb1813e"
     const val POST_BASE_URL = "allPosts"
     const val UPLOAD_PROFILE_IMAGE_REQUEST_CODE = 7866
     const val UPLOAD_COVER_IMAGE_REQUEST_CODE = 2525

@@ -112,6 +112,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         Log.d("searchingFeature", newText.toString())
+        model.queryData(newText!!.toString())
         return false
     }
 

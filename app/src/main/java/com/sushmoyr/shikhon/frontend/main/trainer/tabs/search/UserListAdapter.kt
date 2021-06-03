@@ -9,7 +9,7 @@ import com.sushmoyr.shikhon.databinding.UserListLayoutBinding
 class UserListAdapter(private val onItemClicked: (String) -> Unit) :
     RecyclerView.Adapter<UserListAdapter.MyViewHolder>() {
 
-    var userList = emptyList<User>()
+    private var userList = emptyList<User>()
 
     inner class MyViewHolder(val binding: UserListLayoutBinding, onItemClicked: (Int) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,5 +39,10 @@ class UserListAdapter(private val onItemClicked: (String) -> Unit) :
 
     override fun getItemCount(): Int {
         return userList.size
+    }
+
+    fun setData(users: List<User>){
+        userList = users
+        notifyDataSetChanged()
     }
 }

@@ -118,7 +118,8 @@ class PostDetailsFragment : Fragment() {
                 binding.moreOptions.visibility = View.VISIBLE
                 binding.reactCommentLayout.weightSum = 3F
                 binding.moreOptions.setOnClickListener{
-                    findNavController().navigate(R.id.action_postDetailsFragment_to_postOptionsFragment)
+                    val direction = PostDetailsFragmentDirections.actionPostDetailsFragmentToPostOptionsFragment(post)
+                    findNavController().navigate(direction)
                 }
             }
             else{

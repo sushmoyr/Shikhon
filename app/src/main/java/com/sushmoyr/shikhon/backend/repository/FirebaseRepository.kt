@@ -197,7 +197,6 @@ class FirebaseRepository {
     }
 
     private fun deleteTrainerPostImageData(photoUris: List<String>) {
-        val storageRef = storage.reference
         for (uri in photoUris){
             deleteImage(uri)
         }

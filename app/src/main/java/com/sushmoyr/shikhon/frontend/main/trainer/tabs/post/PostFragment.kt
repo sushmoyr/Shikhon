@@ -2,7 +2,6 @@ package com.sushmoyr.shikhon.frontend.main.trainer.tabs.post
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,25 +10,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.type.DateTime
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.databinding.FragmentPostBinding
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class PostFragment : Fragment() {
@@ -43,6 +40,16 @@ class PostFragment : Fragment() {
     private val currentUser = Firebase.auth.currentUser
 
     private lateinit var user: User
+
+    private lateinit var skills: Array<String>
+    private lateinit var checkedItems : BooleanArray
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        skills = resources.getStringArray(R.array.tagList)
+        checkedItems = BooleanArray(skills.size)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +75,38 @@ class PostFragment : Fragment() {
             Toast.makeText(requireContext(), "Uploading Post", Toast.LENGTH_SHORT).show()
         }
 
+        binding.adTagButton.setOnClickListener {
+            showTagDialog()
+        }
+
         return binding.root
+    }
+
+    private fun showTagDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose the name of the skill")
+
+
+        builder.setMultiChoiceItems(skills, checkedItems) { dialog, which, isChecked ->
+            // user checked or unchecked a box
+            //Log.d("Tags", "which = $which checked = $isChecked")
+        }
+        builder.setPositiveButton("OK") { dialog, which ->
+            // user clicked OK
+            for (i in checkedItems.indices){
+                if (checkedItems[i]){
+                    Log.d("Tags", "Checked: ${skills[i]}")
+                    val chip = Chip(requireContext())
+                    chip.text = skills[i]
+                    binding.chipGroup.addView(chip)
+                }
+            }
+        }
+        builder.setNegativeButton("Cancel", null)
+
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun post() {
@@ -76,10 +114,9 @@ class PostFragment : Fragment() {
         val path = "images/posts"
         val allImageLocation = ArrayList<String>()
         val postTime = getCurrentTime()
-        val postId = postTime +"_${user.uuid}"
+        val postId = postTime + "_${user.uuid}"
 
-        for(i in 0 until allImages.count())
-        {
+        for (i in 0 until allImages.count()) {
             allImageLocation.add("$path/$postId/$i")
         }
 
@@ -87,9 +124,15 @@ class PostFragment : Fragment() {
         val title = binding.trainingTitleText.text.toString()
         val desc = binding.trainingDescText.text.toString()
         val location = binding.trainingLocationText.text.toString()
+        val tags = mutableListOf<String>()
 
-        if(verifyPost(title, desc, location))
-        {
+        for (i in checkedItems.indices){
+            if(checkedItems[i]){
+                tags.add(skills[i])
+            }
+        }
+
+        if (verifyPost(title, desc, location)) {
 
             val post = TrainingPost(
                 postId,
@@ -98,16 +141,15 @@ class PostFragment : Fragment() {
                 desc,
                 location,
                 postTime,
-                allImageLocation
+                allImageLocation,
+                tags
             )
 
             postImages(allImageLocation)
             postContent(post)
             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
                 R.id.homeFragment
-        }
-        else
-        {
+        } else {
             Toast.makeText(requireContext(), "Field can't be empty", Toast.LENGTH_SHORT).show()
         }
 

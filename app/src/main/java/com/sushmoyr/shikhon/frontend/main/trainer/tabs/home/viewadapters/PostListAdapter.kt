@@ -20,6 +20,7 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
 
     private var postList = emptyList<TrainingPost>()
     var userList = emptyList<User>()
+    var tag = "All"
 
     inner class MyViewHolder(val binding: TrainerPostLayoutBinding, onItemClicked: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
 
@@ -30,6 +31,10 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
         }
         fun bind(currentItem: TrainingPost) {
 
+            actualBind(currentItem)
+        }
+
+        private fun actualBind(currentItem: TrainingPost){
             binding.post = currentItem
             binding.numberOfReacts.text = currentItem.reacts.size.toString()
             binding.numberOfComments.text = currentItem.comments.size.toString()
@@ -81,6 +86,11 @@ class PostListAdapter(private val onItemClicked: (TrainingPost) -> Unit) : Recyc
 
     fun setUser(userList: List<User>){
         this.userList = userList
+        notifyDataSetChanged()
+    }
+
+    fun setTagType(tag: String){
+        this.tag = tag
         notifyDataSetChanged()
     }
 

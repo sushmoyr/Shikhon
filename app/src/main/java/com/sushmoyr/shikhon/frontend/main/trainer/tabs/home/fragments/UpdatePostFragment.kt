@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentUpdatePostBinding
@@ -22,6 +23,8 @@ class UpdatePostFragment : Fragment() {
 
     private val model: SharedHomeViewModel by activityViewModels()
 
+    private val args: UpdatePostFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +32,9 @@ class UpdatePostFragment : Fragment() {
         _binding = FragmentUpdatePostBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = this
 
+        val post = args.post
 
-        model.post.observe(viewLifecycleOwner, { post ->
-            updateUI(post)
-        })
+        updateUI(post)
 
         binding.updatePostButton.setOnClickListener {
             binding.invalidateAll()
@@ -52,7 +54,6 @@ class UpdatePostFragment : Fragment() {
 
 
     private fun getNewPost(): TrainingPost {
-
         val post = binding.post!!
 
         val title = binding.trainingTitleUpdateText.text.toString()

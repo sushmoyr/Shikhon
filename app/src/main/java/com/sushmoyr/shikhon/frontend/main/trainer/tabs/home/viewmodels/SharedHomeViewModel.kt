@@ -12,26 +12,15 @@ import kotlinx.coroutines.launch
 class SharedHomeViewModel: ViewModel() {
 
     private val firebaseRepo = FirebaseRepository()
-    val post = MutableLiveData<TrainingPost>()
     val test = MutableLiveData<String>()
     //private val imageList: MutableList<Bitmap> = mutableListOf()
-
-
-
 
     fun updatePost(post: TrainingPost){
         firebaseRepo.updatePost(post)
     }
 
-    fun setPostData(item: TrainingPost) {
-        post.value = item
-    }
 
-
-    fun deletePost(){
-        val post = post.value
-        if (post != null) {
-            firebaseRepo.deleteTrainerPost(post)
-        }
+    fun deletePost(post: TrainingPost){
+        firebaseRepo.deleteTrainerPost(post)
     }
 }

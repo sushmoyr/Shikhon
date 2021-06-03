@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
@@ -21,7 +26,6 @@ import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostLis
 
 class HomeFragment : Fragment() {
     private val homeModel: HomeViewModel by viewModels()
-    private val debug = "Debug"
 
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -40,6 +44,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         firebaseFirestore = FirebaseFirestore.getInstance()
+        homeModel.setTag("All")
     }
 
     override fun onCreateView(
@@ -49,9 +54,26 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+
+
         homeModel.allPost.observe(viewLifecycleOwner, { data->
-            adapter.setData(data)
-            Log.d("realtime", "post data changed")
+            homeModel.selectedTag.observe(viewLifecycleOwner, {tag->
+                if(tag == "All"){
+                    adapter.setData(data)
+                }
+                else{
+                    val filteredList = mutableListOf<TrainingPost>()
+
+                    data.forEach { post->
+                        if(post.tags.contains(tag)){
+                            filteredList.add(post)
+                            Log.d("Tags", "Added post: ${post.trainingName}")
+                        }
+                    }
+
+                    adapter.setData(filteredList)
+                }
+            })
         })
 
         homeModel.allUsers.observe(viewLifecycleOwner, { users ->
@@ -64,6 +86,25 @@ class HomeFragment : Fragment() {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val tags: Array<String> = resources.getStringArray(R.array.tagList)
+
+        for(i in tags.indices){
+            val chip = layoutInflater.inflate(R.layout.filter_chip_layout, binding.filterType, false) as Chip
+            chip.text = tags[i]
+            binding.filterType.addView(chip)
+        }
+
+        binding.filterType.setOnCheckedChangeListener { group, checkedId ->
+            group.children.forEach {
+                if(it is Chip){
+                    if (it.id == checkedId){
+                        Log.d("tags", "Selected: ${it.text}")
+                        homeModel.setTag(it.text.toString())
+                    }
+                }
+            }
+        }
 
         return binding.root
     }

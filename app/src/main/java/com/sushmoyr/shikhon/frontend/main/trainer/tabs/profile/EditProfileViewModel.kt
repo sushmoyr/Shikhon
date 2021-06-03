@@ -1,15 +1,12 @@
 package com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.utils.Constants
-import kotlinx.coroutines.launch
 
 class EditProfileViewModel: ViewModel() {
 
@@ -47,49 +44,38 @@ class EditProfileViewModel: ViewModel() {
         if(newContactNo.isEmpty())
             newContactNo = oldUser.contactNo
 
-        var newCoverPhotoUri: String
-        if(coverPhotoUri is Uri){
-            Log.d("User", "Cover photo changed")
-            val location = "${Constants.PROFILE_IMAGE_BASE_URL}${oldUser.uuid}/${Constants.COVER_PICTURE_TAIL_URL}"
-            Log.d("User", "Upload location: $location")
-            uploadImage(coverPhotoUri, location)
-            newCoverPhotoUri = location
-        }
-        else{
-            newCoverPhotoUri = oldUser.coverPhotoUri
-        }
 
-        var newProfilePicUri: String
-        if(profileImageUri is Uri){
-            Log.d("User", "Profile photo changed")
-            val location = "${Constants.PROFILE_IMAGE_BASE_URL}${oldUser.uuid}/${Constants.PROFILE_PICTURE_TAIL_URL}"
-            Log.d("User", "Upload location: $location")
-            uploadImage(profileImageUri, location)
-            newProfilePicUri = location
-        }
-        else{
-            newProfilePicUri = oldUser.profilePicUri
-        }
 
         val newUser = User(
             oldUser.uuid,
             name,
             oldUser.email,
             oldUser.accountType,
-            newProfilePicUri,
-            newCoverPhotoUri,
+            oldUser.profilePicUri,
+            oldUser.coverPhotoUri,
             newBio,
             gender,
             newBirthDate,
             newContactNo
         )
 
+        //check if coverPhoto updated
+        if (coverPhotoUri is Uri){
+            //updated. begin upload task
+            val location = "${Constants.PROFILE_IMAGE_BASE_URL}${oldUser.uuid}/${Constants.COVER_PICTURE_TAIL_URL}"
+            updateProfileImages(coverPhotoUri, location, Constants.COVER_PHOTO, oldUser.uuid)
+        }
+
+        if (profileImageUri is Uri){
+            val location = "${Constants.PROFILE_IMAGE_BASE_URL}${oldUser.uuid}/${Constants.PROFILE_PICTURE_TAIL_URL}"
+            updateProfileImages(profileImageUri, location, Constants.PROFILE_PHOTO, oldUser.uuid)
+        }
+
         return repository.updateUser(newUser)
     }
 
-    private fun uploadImage(source: Uri, location: String){
-        viewModelScope.launch {
-            repository.uploadImage(source, location)
-        }
+    private fun updateProfileImages(coverPhotoUri: Uri, location: String, pictureType: Int, id: String) {
+        repository.updateProfileImage(coverPhotoUri, location, pictureType, id)
     }
+
 }

@@ -66,7 +66,8 @@ class UpdatePostFragment : Fragment() {
             trainingName = title,
             trainingDescription = content,
             trainingLocation = location,
-            photoUris = post.photoUris
+            photoUris = post.photoUris,
+            photoLocations = post.photoLocations
         )
     }
 

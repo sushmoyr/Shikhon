@@ -1,5 +1,6 @@
 package com.sushmoyr.shikhon.backend.data
 
+import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
@@ -18,8 +19,9 @@ data class TrainingPost(
     val trainingDescription: String = "",
     val trainingLocation: String = "",
     val postTime: String = "2021-06-01T04:01:37.749",
-    val photoUris: List<String> = emptyList(),
+    var photoUris: List<String> = emptyList(),
     val tags: List<String> = emptyList(),
     val reacts: List<String> = emptyList(),
-    val comments: List<Comment> = emptyList()
+    val comments: List<Comment> = emptyList(),
+    val photoLocations: List<String> = emptyList()
 ): Parcelable

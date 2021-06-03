@@ -14,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.R
+import com.sushmoyr.shikhon.utils.Constants
 import java.time.LocalDateTime
 
 class DataBindingAdapters {
@@ -23,18 +24,14 @@ class DataBindingAdapters {
         fun ImageView.sourceUrl(url: Any?) {
 
             if (url is String) {
-                if (url != null) {
-                    val storageRef = Firebase.storage.reference
-                    storageRef.child(url).downloadUrl.addOnSuccessListener {
-                        Log.d("bindingAdapter", "Profile pic ur success : $it")
-                        Glide.with(this)
-                            .load(Uri.parse(it.toString()))
-                            .override(width, height)
-                            .centerCrop()
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(this)
-                    }
-                }
+                Glide.with(this)
+                    .load(Uri.parse(url))
+                    .placeholder(R.drawable.profile_placeholder)
+                    .error(R.drawable.profile_placeholder)
+                    .override(width, height)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(this)
             }
             else if(url is Uri){
                 Glide.with(context)
@@ -123,6 +120,21 @@ class DataBindingAdapters {
                 val finalText = "$finalDateStamp at $finalTimeStamp"
                 Log.d("finalTimeText", finalText)
                 text = finalText
+            }
+        }
+
+        @BindingAdapter("android:setAccType")
+        @JvmStatic
+        fun TextView.setAccType(type: Int?) {
+            if(type != null){
+                var accType: String = ""
+                if(type == Constants.USER_TYPE_TRAINER){
+                    accType = "Trainer"
+                }
+                else {
+                    accType = "Student"
+                }
+                text = accType
             }
         }
 

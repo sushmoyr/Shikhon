@@ -21,6 +21,7 @@ class PostDetailsImageAdapter: RecyclerView.Adapter<PostDetailsImageAdapter.MyVi
 
     class MyViewHolder(val binding: DetailImageLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(currentItem: String){
+
             Glide.with(binding.root.context)
                 .load(Uri.parse(currentItem))
                 .listener(

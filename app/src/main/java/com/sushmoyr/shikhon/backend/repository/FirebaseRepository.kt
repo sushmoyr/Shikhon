@@ -8,7 +8,6 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.Review
@@ -16,6 +15,7 @@ import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.utils.Constants
 import kotlinx.coroutines.tasks.await
+import java.util.ArrayList
 
 class FirebaseRepository {
     private val db = Firebase.firestore
@@ -30,22 +30,22 @@ class FirebaseRepository {
         val refUser = db.collection("users")
 
         refUser.addSnapshotListener { value, error ->
-            if (error != null || value == null){
+            if (error != null || value == null) {
                 Log.d("exception", "user snapshot failed")
             }
             val userList = value?.toObjects(User::class.java)
-            if(userList!=null){
+            if (userList != null) {
                 allUsers.value = userList
             }
         }
 
         val refReview = db.collection("allReview")
         refReview.addSnapshotListener { value, error ->
-            if (error != null || value == null){
+            if (error != null || value == null) {
                 Log.d("exception", "user snapshot failed")
             }
             val reviewList = value?.toObjects(Review::class.java)
-            if(reviewList!=null){
+            if (reviewList != null) {
                 allReviews.value = reviewList
             }
         }
@@ -63,20 +63,7 @@ class FirebaseRepository {
             }
     }
 
-    fun addTrainerPostToDatabase(post: TrainingPost, uid: String, postId: String) {
-        val ref = db.collection("allPosts").document(postId)
-
-        ref.set(post)
-            .addOnSuccessListener {
-                Log.d("Debug", "Post with $postId added by $uid")
-            }
-            .addOnFailureListener {
-                Log.d("Debug", "Something went wrong")
-            }
-
-    }
-
-    fun addReviewToDatabase(review: Review){
+    fun addReviewToDatabase(review: Review) {
         val ref = db.collection("allReview").document()
             .set(review)
     }
@@ -105,20 +92,6 @@ class FirebaseRepository {
     }
 
 
-    suspend fun getPhotoUrls(photoUris: List<String>): List<String> {
-        val uris: MutableList<String> = mutableListOf()
-        val storageRef = storage.reference
-        for (uri in photoUris) {
-            storageRef.child(uri).downloadUrl.addOnSuccessListener {
-                if (!uris.contains(it.toString())) {
-                    uris.add(it.toString())
-                    Log.d("repo", "Got url: $it")
-                }
-            }.await()
-        }
-        return uris
-    }
-
     fun updatePost(post: TrainingPost) {
         db.collection(Constants.POST_BASE_URL).document(post.postId)
             .set(post)
@@ -130,7 +103,7 @@ class FirebaseRepository {
             }
     }
 
-    fun updateReactData(postId: String , newReacts: List<String>){
+    fun updateReactData(postId: String, newReacts: List<String>) {
         db.collection(Constants.POST_BASE_URL).document(postId)
             .update("reacts", newReacts)
             .addOnSuccessListener {
@@ -147,23 +120,23 @@ class FirebaseRepository {
 
         ref.orderBy("postTime", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
-            if (exception != null || snapshot == null) {
-                Log.d("exception", "Post snapshot failed")
-                return@addSnapshotListener
+                if (exception != null || snapshot == null) {
+                    Log.d("exception", "Post snapshot failed")
+                    return@addSnapshotListener
+                }
+                val postList = snapshot.toObjects(TrainingPost::class.java)
+                allPosts.value = postList
             }
-            val postList = snapshot.toObjects(TrainingPost::class.java)
-            allPosts.value = postList
-        }
 
 
         return allPosts
     }
 
-    fun getAllUserData(): MutableLiveData<List<User>>{
+    fun getAllUserData(): MutableLiveData<List<User>> {
         return allUsers
     }
 
-    fun getAllReviews() : MutableLiveData<List<Review>>{
+    fun getAllReviews(): MutableLiveData<List<Review>> {
         return allReviews
     }
 
@@ -171,7 +144,7 @@ class FirebaseRepository {
         val ref = db.collection(Constants.POST_BASE_URL).document(postId)
 
         ref.addSnapshotListener { value, error ->
-            if(error!=null || value == null){
+            if (error != null || value == null) {
                 Log.d("SinglePost", "Single Post update failed")
                 return@addSnapshotListener
             }
@@ -182,13 +155,12 @@ class FirebaseRepository {
         return singlePost
     }
 
-    fun deleteTrainerPost(post: TrainingPost){
+    fun deleteTrainerPost(post: TrainingPost) {
         db.collection(Constants.POST_BASE_URL).document(post.postId).delete()
             .addOnSuccessListener {
                 Log.d("DeletePost", "Post with id: ${post.postId} has been deleted")
-                if(post.photoUris.isNotEmpty())
-                {
-                    deleteTrainerPostImageData(post.photoUris)
+                if (post.photoUris.isNotEmpty()) {
+                    deleteTrainerPostImageData(post.photoLocations)
                 }
             }
             .addOnFailureListener {
@@ -197,12 +169,12 @@ class FirebaseRepository {
     }
 
     private fun deleteTrainerPostImageData(photoUris: List<String>) {
-        for (uri in photoUris){
+        for (uri in photoUris) {
             deleteImage(uri)
         }
     }
 
-    private fun deleteImage(uri: String){
+    private fun deleteImage(uri: String) {
         val storageRef = storage.reference
 
         try {
@@ -213,29 +185,99 @@ class FirebaseRepository {
                 .addOnFailureListener {
                     Log.d("DeletePost", "Post delete Failed Nigga nigga")
                 }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.d("Exception", "Exception in deleteImage. Exception: ${e.message.toString()}")
         }
     }
 
     fun updateCommentsData(postId: String, allComments: MutableList<Comment>) {
-            db.collection(Constants.POST_BASE_URL).document(postId)
-                .update("comments", allComments)
-                .addOnSuccessListener {
-                    Log.d("Comments", "Successfully added comments")
-                }
-                .addOnFailureListener {
-                    Log.d("Comments", "Comments adding failed")
-                }
+        db.collection(Constants.POST_BASE_URL).document(postId)
+            .update("comments", allComments)
+            .addOnSuccessListener {
+                Log.d("Comments", "Successfully added comments")
+            }
+            .addOnFailureListener {
+                Log.d("Comments", "Comments adding failed")
+            }
     }
 
-    suspend fun uploadImage(source: Uri, location: String) {
-        val storage = FirebaseStorage.getInstance().getReference(location)
-        storage.putFile(source).await()
-    }
-
+    //USer Update Region
     fun updateUser(newUser: User): Task<Void> {
         return db.collection(Constants.USER_BASE_URL).document(newUser.uuid)
             .set(newUser)
     }
+
+    fun updateProfileImage(coverPhotoUri: Uri, location: String, pictureType: Int, uid: String){
+        val ref = storage.reference.child(location).putFile(coverPhotoUri)
+            .addOnSuccessListener {
+                //Cover photo upload success. Now get link and update document
+                getImageDownloadLink(uid, location, pictureType)
+            }
+    }
+
+    private fun joinImageLinkToProfile(uid: String, link: Uri?, imageType: Int) {
+        val ref = db.collection(Constants.USER_BASE_URL).document(uid)
+
+        when(imageType){
+            Constants.PROFILE_PHOTO -> ref.update("profilePicUri", link.toString()).addOnSuccessListener {
+
+                Log.d("updateFix", "Profile photo updated")
+            }
+            Constants.COVER_PHOTO -> ref.update("coverPhotoUri", link.toString()).addOnSuccessListener {
+
+                Log.d("updateFix", "Cover photo updated")
+            }
+        }
+
+    }
+
+    //Post Upload Part
+
+    fun addTrainerPostToDatabase(post: TrainingPost, imageSources: ArrayList<Uri>) {
+        val ref = db.collection("allPosts").document(post.postId)
+
+        ref.set(post)
+            .addOnSuccessListener {
+                Log.d("asyncFix", "Post with ${post.postId} added by ${post.user.uuid}")
+                //Start uploading images
+                uploadPostImages(imageSources, post.photoLocations, post.postId)
+
+            }
+            .addOnFailureListener {
+                Log.d("Debug", "Something went wrong")
+            }
+
+    }
+
+    private fun uploadPostImages(sources: ArrayList<Uri>, destinations: List<String>, postId: String) {
+
+        val storageRef = storage.reference
+        for (i in 0 until sources.size) {
+            storageRef.child(destinations[i]).putFile(sources[i]).addOnSuccessListener {
+                Log.d("asyncFix", "Upload $i successful")
+                //get download uri and update document
+                getImageDownloadLink(postId, destinations[i], i)
+            }
+        }
+    }
+
+    private fun getImageDownloadLink(id: String, link: String, imageType: Int) {
+        val ref = storage.reference.child(link)
+        ref.downloadUrl.addOnSuccessListener {
+            Log.d("asyncFix", "download url of $imageType = $it")
+            if(imageType == Constants.POST_PHOTOS){
+                joinImageLinkToPost(id, it)
+            }
+            else{
+                joinImageLinkToProfile(id, it, imageType)
+            }
+        }
+    }
+
+    private fun joinImageLinkToPost(postId: String, uri: Uri?) {
+        val ref = db.collection("allPosts").document(postId)
+        ref.update("photoUris", FieldValue.arrayUnion(uri.toString()))
+    }
+
+
 }

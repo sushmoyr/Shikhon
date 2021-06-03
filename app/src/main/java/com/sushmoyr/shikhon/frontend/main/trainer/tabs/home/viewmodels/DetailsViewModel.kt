@@ -1,15 +1,14 @@
 package com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.backend.data.Comment
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 class DetailsViewModel: ViewModel() {
@@ -27,9 +26,7 @@ class DetailsViewModel: ViewModel() {
     }
 
     fun setPhotosUris(photoUris: List<String>) {
-        viewModelScope.launch {
-            imageUriList.value = repository.getPhotoUrls(photoUris)
-        }
+        imageUriList.value = photoUris
     }
     
     fun addNewComment(comment: String){

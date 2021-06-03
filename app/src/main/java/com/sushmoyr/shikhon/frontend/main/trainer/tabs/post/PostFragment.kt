@@ -11,15 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.backend.data.User
@@ -43,6 +42,8 @@ class PostFragment : Fragment() {
 
     private lateinit var skills: Array<String>
     private lateinit var checkedItems : BooleanArray
+
+    private val model: PostViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +135,7 @@ class PostFragment : Fragment() {
 
         if (verifyPost(title, desc, location)) {
 
+            val photoUris : List<String> = emptyList()
             val post = TrainingPost(
                 postId,
                 user,
@@ -141,25 +143,19 @@ class PostFragment : Fragment() {
                 desc,
                 location,
                 postTime,
-                allImageLocation,
-                tags
+                photoUris,
+                tags,
+                photoLocations = allImageLocation
             )
 
-            postImages(allImageLocation)
-            postContent(post)
+            model.postContent(post, allImages)
             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId =
                 R.id.homeFragment
         } else {
             Toast.makeText(requireContext(), "Field can't be empty", Toast.LENGTH_SHORT).show()
         }
-
-
     }
 
-    private fun postContent(post: TrainingPost) {
-        Toast.makeText(requireContext(), "Posting", Toast.LENGTH_SHORT).show()
-        FirebaseRepository().addTrainerPostToDatabase(post, currentUser?.uid!!, post.postId)
-    }
 
     private fun verifyPost(title: String, desc: String, location: String): Boolean {
         return when {
@@ -170,17 +166,6 @@ class PostFragment : Fragment() {
         }
     }
 
-    private fun postImages(allImageLocation: ArrayList<String>) {
-
-        val storage = FirebaseStorage.getInstance()
-
-        for (i in 0 until allImages.count()) {
-            val ref = storage.getReference(allImageLocation[i])
-            ref.putFile(allImages[i]).addOnSuccessListener {
-                Log.d("Debug", "image uploaded")
-            }
-        }
-    }
 
 
     private fun uploadImage() {

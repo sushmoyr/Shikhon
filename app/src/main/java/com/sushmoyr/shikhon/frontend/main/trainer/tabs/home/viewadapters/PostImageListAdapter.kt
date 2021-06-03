@@ -38,84 +38,48 @@ class PostImageListAdapter(private val newList: List<String>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = newList[position]
-        /*val storageRef = FirebaseStorage.getInstance().reference.child(currentItem)
-        val localFile = File.createTempFile("tempImage", "jpg")
-        storageRef.getFile(localFile).addOnSuccessListener {
-            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
 
-            Glide.with(holder.itemView.context)
-                .load(bitmap)
-                .centerCrop()
-                .listener(
-                    object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            Log.d("Debug", "Load failed. Getting Exception")
-                            if (e != null) {
-                                Log.d("Debug", e.stackTraceToString())
-                            }
-                            return false
+        Glide.with(holder.itemView.context)
+            .load(Uri.parse(currentItem))
+            .listener(
+                object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.d("Debug", "Load failed on details. Getting Exception")
+                        if (e != null) {
+                            Log.d("Debug", e.stackTraceToString())
                         }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            Log.d("Debug", "Load Success")
-                            return false
-                        }
-
+                        return false
                     }
-                )
-                .into(holder.binding.image)
-        }*/
 
-        val storageRef = Firebase.storage.reference
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.d("Debug", "Load Success on details")
+                        holder.binding.loadingImage.visibility = View.GONE
+                        return false
+                    }
+
+                }
+            )
+            .override(holder.binding.image.width, holder.binding.image.height)
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .into(holder.binding.image)
+
+        /*val storageRef = Firebase.storage.reference
         storageRef.child(currentItem).downloadUrl.addOnSuccessListener {
             Log.d("Update", "Post image load success : ${it.toString()}")
-            Glide.with(holder.itemView.context)
-                .load(Uri.parse(it.toString()))
-                .listener(
-                    object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            Log.d("Debug", "Load failed on details. Getting Exception")
-                            if (e != null) {
-                                Log.d("Debug", e.stackTraceToString())
-                            }
-                            return false
-                        }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            Log.d("Debug", "Load Success on details")
-                            holder.binding.loadingImage.visibility = View.GONE
-                            return false
-                        }
-
-                    }
-                )
-                .override(holder.binding.image.width, holder.binding.image.height)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(holder.binding.image)
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {

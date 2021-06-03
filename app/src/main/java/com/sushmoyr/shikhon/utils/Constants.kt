@@ -17,4 +17,7 @@ object Constants {
     const val PROFILE_PICTURE_TAIL_URL = "profilePictures/photo"
     const val COVER_PICTURE_TAIL_URL = "coverPictures/photo"
     const val USER_BASE_URL = "users"
+    const val COVER_PHOTO = 1010144
+    const val PROFILE_PHOTO = 1010155
+    const val POST_PHOTOS = 1010166
 }

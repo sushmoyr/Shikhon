@@ -14,7 +14,7 @@
         android:icon="@drawable/create"
         android:title="Post" />
     <item
-        android:id="@id/notificationFragment"
+        android:id="@id/searchFragment"
         android:icon="@drawable/cloud"
         android:title="Notifications" />
     <item

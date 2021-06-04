@@ -55,6 +55,9 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
+        binding.messengerButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_messengerFragment)
+        }
 
         homeModel.allPost.observe(viewLifecycleOwner, { data->
             homeModel.selectedTag.observe(viewLifecycleOwner, {tag->

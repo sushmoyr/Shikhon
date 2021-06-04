@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_postDetailsFragment"
             app:destination="@id/postDetailsFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_messengerFragment"
+            app:destination="@id/messengerFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -137,4 +140,22 @@
         tools:layout="@layout/fragment_review" >
         <argument android:name="reviewedUserId" />
     </dialog>
+    <fragment
+        android:id="@+id/messengerFragment"
+        android:name="com.sushmoyr.shikhon.MessengerFragment"
+        android:label="fragment_messenger"
+        tools:layout="@layout/fragment_messenger" >
+        <action
+            android:id="@+id/action_messengerFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.sushmoyr.shikhon.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="roomId"
+            app:argType="string" />
+    </fragment>
 </navigation>

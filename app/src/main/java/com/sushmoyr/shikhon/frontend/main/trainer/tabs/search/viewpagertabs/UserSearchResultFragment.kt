@@ -1,14 +1,17 @@
 package com.sushmoyr.shikhon.frontend.main.trainer.tabs.search.viewpagertabs
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.databinding.FragmentUserSearchResultBinding
@@ -48,6 +51,11 @@ class UserSearchResultFragment : Fragment() {
         model.filteredUser.observe(viewLifecycleOwner, { user->
             userListAdapter.setData(user)
         })
+
+        // Add document data with auto-generated id.
+        // Add document data with auto-generated id.
+
+
 
         return binding.root
     }

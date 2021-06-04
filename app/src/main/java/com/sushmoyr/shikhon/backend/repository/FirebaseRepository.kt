@@ -2,6 +2,7 @@ package com.sushmoyr.shikhon.backend.repository
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
@@ -9,16 +10,16 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.sushmoyr.shikhon.backend.data.Comment
-import com.sushmoyr.shikhon.backend.data.Review
-import com.sushmoyr.shikhon.backend.data.TrainingPost
-import com.sushmoyr.shikhon.backend.data.User
+import com.sushmoyr.shikhon.backend.data.*
 import com.sushmoyr.shikhon.utils.Constants
 import kotlinx.coroutines.tasks.await
 import java.util.ArrayList
 
-class FirebaseRepository {
-    private val db = Firebase.firestore
+object FirebaseRepository {
+
+    private val db : FirebaseFirestore by lazy {
+        FirebaseFirestore.getInstance()
+    }
     private val storage = Firebase.storage
 
     private val allPosts = MutableLiveData<List<TrainingPost>>()
@@ -279,5 +280,56 @@ class FirebaseRepository {
         ref.update("photoUris", FieldValue.arrayUnion(uri.toString()))
     }
 
+    //Messenger part
+    const val tags = "messenger"
+
+    fun getRooms(ownerId: String): MutableLiveData<List<ChatInstance>>{
+        val instances = MutableLiveData<List<ChatInstance>>()
+
+        db.collection("Rooms")
+            .whereArrayContains("chatOwners", ownerId)
+            .addSnapshotListener{ snapshot, exception->
+                if (exception != null || snapshot == null) {
+                    Log.d(tags, "Post snapshot failed")
+                    return@addSnapshotListener
+                }
+                val rooms = snapshot.toObjects(ChatInstance::class.java)
+                instances.value = rooms
+            }
+
+        return instances
+    }
+
+    fun getMessages(roomId: String): MutableLiveData<List<Message>>{
+        val allMessages = MutableLiveData<List<Message>>()
+
+        db.collection("messages/$roomId/chats")
+            .orderBy("sendTime", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception->
+                if (exception != null) {
+                    Log.d(tags, "Post snapshot failed.")
+                    return@addSnapshotListener
+                }
+                if(snapshot == null || snapshot.isEmpty){
+                    allMessages.value = emptyList()
+                    Log.d(tags, "Empty")
+                }else{
+                    val messages = snapshot.toObjects(Message::class.java)
+                    messages.forEach{
+                        Log.d(tags, it.toString())
+                    }
+                    allMessages.value = messages
+                }
+            }
+
+        return allMessages
+    }
+
+    fun addNewMessage(roomId: String, updateTime: String, message: Message){
+        db.collection("messages/$roomId/chats").add(message)
+            .addOnSuccessListener {
+                Log.d(tags, "Msg added = ${message.message}")
+            }
+    }
 
 }

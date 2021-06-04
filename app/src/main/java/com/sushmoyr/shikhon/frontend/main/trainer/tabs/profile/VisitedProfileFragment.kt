@@ -64,7 +64,7 @@ class VisitedProfileFragment : Fragment() {
             postListAdapter.setUser(users)
             reviewListAdapter.setUser(users)
 
-            users.forEach {
+            users.forEach { it->
                 if(it.uuid == uid){
                     Log.d("User","Found you. updating ui")
                     binding.user = it

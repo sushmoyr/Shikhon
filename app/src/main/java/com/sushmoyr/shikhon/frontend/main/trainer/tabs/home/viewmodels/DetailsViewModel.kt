@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 
 class DetailsViewModel: ViewModel() {
 
-    private val repository = FirebaseRepository()
+    private val repository = FirebaseRepository
     var post = MutableLiveData<TrainingPost>()
     //val allPosts = repository.getPostData()
     val imageUriList = MutableLiveData<List<String>>()

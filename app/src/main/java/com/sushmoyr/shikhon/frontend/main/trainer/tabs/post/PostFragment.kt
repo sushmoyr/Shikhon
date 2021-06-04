@@ -35,7 +35,7 @@ class PostFragment : Fragment() {
 
     private lateinit var allImages: ArrayList<Uri>
 
-    private val repository = FirebaseRepository()
+    private val repository = FirebaseRepository
     private val currentUser = Firebase.auth.currentUser
 
     private lateinit var user: User

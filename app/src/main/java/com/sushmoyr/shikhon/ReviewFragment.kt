@@ -25,7 +25,7 @@ class ReviewFragment : BottomSheetDialogFragment() {
 
     private val auth = Firebase.auth
 
-    private val repo = FirebaseRepository()
+    private val repo = FirebaseRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

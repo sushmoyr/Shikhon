@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class PostViewModel: ViewModel() {
 
-    private val repository = FirebaseRepository()
+    private val repository = FirebaseRepository
 
     fun postContent(post: TrainingPost, allImagesSource: ArrayList<Uri>) {
         /**First we will upload all the images

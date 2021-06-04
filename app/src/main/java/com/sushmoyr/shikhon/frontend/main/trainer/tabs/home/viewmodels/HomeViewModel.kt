@@ -9,7 +9,7 @@ import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 
 class HomeViewModel : ViewModel() {
 
-    private val repo : FirebaseRepository = FirebaseRepository()
+    private val repo : FirebaseRepository = FirebaseRepository
     val allPost : LiveData<List<TrainingPost>> = repo.getPostData()
     val allUsers : LiveData<List<User>> = repo.getAllUserData()
     val selectedTag = MutableLiveData<String>()

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class AccountLoaderViewModel: ViewModel() {
 
-    private val firebaseRepository = FirebaseRepository()
+    private val firebaseRepository = FirebaseRepository
 
     fun getCurrentUserData(uid: String): User{
         var currentUser = User()

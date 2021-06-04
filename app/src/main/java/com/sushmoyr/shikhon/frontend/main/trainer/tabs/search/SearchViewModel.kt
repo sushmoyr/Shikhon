@@ -8,7 +8,7 @@ import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 
 class SearchViewModel : ViewModel() {
 
-    val repository = FirebaseRepository()
+    val repository = FirebaseRepository
 
     private val allPosts: MutableLiveData<List<TrainingPost>> = repository.getPostData()
     val allUsers: MutableLiveData<List<User>> = repository.getAllUserData()
@@ -48,7 +48,7 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-    fun searchUserData(query: String){
+    private fun searchUserData(query: String){
         if (query.isEmpty()) {
             filteredUser.value = emptyList()
         }

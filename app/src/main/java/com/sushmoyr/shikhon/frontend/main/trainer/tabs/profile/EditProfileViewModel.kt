@@ -13,7 +13,7 @@ class EditProfileViewModel: ViewModel() {
     val profileImageUri = MutableLiveData<Any>()
     val coverImageUri = MutableLiveData<Any>()
 
-    val repository = FirebaseRepository()
+    val repository = FirebaseRepository
 
     fun setProfileImageUri(uri: Any){
         profileImageUri.value = uri

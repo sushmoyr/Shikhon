@@ -19,7 +19,7 @@ class AccountLoaderActivity : AppCompatActivity() {
 
     private val viewModel: AccountLoaderViewModel by viewModels()
     private lateinit var auth: FirebaseAuth
-    private val firebaseRepository = FirebaseRepository()
+    private val firebaseRepository = FirebaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

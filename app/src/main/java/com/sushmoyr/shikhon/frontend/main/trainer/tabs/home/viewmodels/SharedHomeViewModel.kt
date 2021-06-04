@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class SharedHomeViewModel: ViewModel() {
 
-    private val firebaseRepo = FirebaseRepository()
+    private val firebaseRepo = FirebaseRepository
     val test = MutableLiveData<String>()
     //private val imageList: MutableList<Bitmap> = mutableListOf()
 

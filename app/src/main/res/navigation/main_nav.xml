@@ -142,7 +142,7 @@
     </dialog>
     <fragment
         android:id="@+id/messengerFragment"
-        android:name="com.sushmoyr.shikhon.MessengerFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.messenger.MessengerFragment"
         android:label="fragment_messenger"
         tools:layout="@layout/fragment_messenger" >
         <action
@@ -155,7 +155,10 @@
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <argument
-            android:name="roomId"
-            app:argType="string" />
+            android:name="room"
+            app:argType="com.sushmoyr.shikhon.backend.data.ChatInstance" />
+        <action
+            android:id="@+id/action_chatFragment_to_visitedProfileFragment"
+            app:destination="@id/visitedProfileFragment" />
     </fragment>
 </navigation>

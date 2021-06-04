@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
 
-    private val firebaseRepository = FirebaseRepository()
-    val userAccountType = MutableLiveData<Int>()
+    private val firebaseRepository = FirebaseRepository
+    private val userAccountType = MutableLiveData<Int>()
 
     fun registerUser(user: User)
     {

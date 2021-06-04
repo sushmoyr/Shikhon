@@ -33,7 +33,7 @@ class TrainerActivity : AppCompatActivity() {
         setUpBottomNavigation()
 
         auth = Firebase.auth
-        firebaseRepository = FirebaseRepository()
+        firebaseRepository = FirebaseRepository
         val currentUser = auth.currentUser
 
         if(currentUser!=null)

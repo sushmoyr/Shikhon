@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.google.android.gms.tasks.Task
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -15,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.databinding.FragmentExtrasBinding
 import com.sushmoyr.shikhon.frontend.initials.PreTaskActivity
 import java.util.*
@@ -36,7 +38,7 @@ class ExtrasFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentExtrasBinding.inflate(layoutInflater, container, false)
 
-        binding.logoutButton.setOnClickListener {
+        binding.signOutButtonExtras.setOnClickListener {
             val data: MutableMap<String, Any> = HashMap()
             data["name"] = "Tokyo"
             data["country"] = "Japan"
@@ -45,6 +47,10 @@ class ExtrasFragment : Fragment() {
                 Log.d("keyGen", "Id = $id")
             }
 
+        }
+
+        binding.messengerButtonExtras.setOnClickListener {
+            findNavController().navigate(R.id.action_extrasFragment_to_messengerFragment)
         }
 
         return binding.root

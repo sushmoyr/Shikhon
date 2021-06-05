@@ -1,4 +1,4 @@
-package com.sushmoyr.shikhon
+package com.sushmoyr.shikhon.frontend.main.messenger
 
 import android.os.Bundle
 import android.util.Log
@@ -14,9 +14,6 @@ import com.sushmoyr.shikhon.backend.data.Message
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.databinding.FragmentChatBinding
-import com.sushmoyr.shikhon.frontend.main.messenger.MessengerViewModel
-import com.sushmoyr.shikhon.frontend.main.messenger.ReceiveMessageItem
-import com.sushmoyr.shikhon.frontend.main.messenger.SendMessageItem
 import com.sushmoyr.shikhon.frontend.main.trainer.bindingadapters.DataBindingAdapters.Companion.sourceUrl
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter

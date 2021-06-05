@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.lifecycle.MutableLiveData
 import org.w3c.dom.Text
 import java.time.LocalDateTime
 
@@ -40,6 +41,48 @@ object Verify {
 
     fun getCurrentTime(): String {
         return LocalDateTime.now().toString()
+    }
+
+
+    //User Input Verifications
+
+    fun checkCurrentPassword(currentPass: EditText){
+        currentPass.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if(count==0){
+                    currentPass.error = "Required Field!! Can't be empty"
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!(count in 33 downTo 5)){
+                    currentPass.error = "Password length must be from 6 to 32 characters"
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+    }
+
+    fun matchPassword(confirmPass: EditText, currentPass: String){
+        confirmPass.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if(s.isNotEmpty() && s != currentPass)
+                        confirmPass.error = "Password didn't match"
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
     }
 
 }

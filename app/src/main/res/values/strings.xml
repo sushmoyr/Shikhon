@@ -20,6 +20,7 @@
     <string name="john_doe">John Doe</string>
     <string name="dummy_comment">I was wondering if it is a comment I should make, I should make it interesting. But I don\'t have the energy to do something like that lmao</string>
     <string name="ratings_amp_reviews"><![CDATA[Ratings & Reviews]]></string>
+    <string name="password">Password</string>
 
     <string-array name="tagList">
         <item>Cooking</item>

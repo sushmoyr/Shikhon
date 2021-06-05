@@ -53,6 +53,19 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    private fun enableLoading(enable: Boolean){
+        if(enable){
+            binding.loginInProgress.visibility = View.VISIBLE
+            binding.loginProgressBg.visibility = View.VISIBLE
+            binding.loginBtn.isClickable = false
+        }
+        else{
+            binding.loginInProgress.visibility = View.GONE
+            binding.loginProgressBg.visibility = View.GONE
+            binding.loginBtn.isClickable = true
+        }
+    }
+
     private fun loginUser() {
         val email = binding.email.text.toString().trimEnd()
         val password = binding.password.text.toString()
@@ -61,6 +74,7 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "Fields can't be empty", Toast.LENGTH_SHORT).show()
             return
         }
+        enableLoading(true)
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -68,7 +82,8 @@ class LoginFragment : Fragment() {
                     startActivity(Intent(activity, PreTaskActivity::class.java))
                 } else {
                     Log.d(toastTag, "Login failed")
-                    Toast.makeText(requireContext(), "Login Failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Login Failed. Try again later!!!", Toast.LENGTH_SHORT).show()
+                    enableLoading(false)
                 }
             }
     }

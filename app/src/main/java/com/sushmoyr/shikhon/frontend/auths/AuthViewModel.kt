@@ -16,7 +16,9 @@ class AuthViewModel : ViewModel() {
 
     fun registerUser(user: User)
     {
-        firebaseRepository.addUserToDatabase(user)
+        viewModelScope.launch {
+            firebaseRepository.addUserToDatabase(user)
+        }
     }
 
     fun setUserAccountType(id: String){

@@ -53,7 +53,7 @@ object FirebaseRepository {
         }
     }
 
-    fun addUserToDatabase(user: User) {
+    suspend fun addUserToDatabase(user: User) {
         db.collection(Constants.USER)
             .document(user.uuid)
             .set(user)
@@ -62,7 +62,7 @@ object FirebaseRepository {
             }
             .addOnFailureListener {
                 Log.d("Debug", "Data add failed")
-            }
+            }.await()
     }
 
     fun addReviewToDatabase(review: Review) {

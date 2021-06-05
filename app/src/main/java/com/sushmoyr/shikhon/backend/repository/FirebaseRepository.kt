@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -257,7 +258,7 @@ object FirebaseRepository {
             storageRef.child(destinations[i]).putFile(sources[i]).addOnSuccessListener {
                 Log.d("asyncFix", "Upload $i successful")
                 //get download uri and update document
-                getImageDownloadLink(postId, destinations[i], i)
+                getImageDownloadLink(postId, destinations[i], Constants.POST_PHOTOS)
             }
         }
     }
@@ -277,13 +278,17 @@ object FirebaseRepository {
 
     private fun joinImageLinkToPost(postId: String, uri: Uri?) {
         val ref = db.collection("allPosts").document(postId)
-        ref.update("photoUris", FieldValue.arrayUnion(uri.toString()))
+        ref.update("photoUris", FieldValue.arrayUnion(uri.toString())).addOnSuccessListener {
+            Log.d("asyncFix", "Photo added to posts")
+        }.addOnFailureListener {
+            Log.d("asyncFix", "Sorry!!!!!")
+        }
     }
 
     //Messenger part
     const val tags = "messenger"
 
-    fun getRooms(ownerId: String): MutableLiveData<List<ChatInstance>>{
+    fun getUserRooms(ownerId: String): MutableLiveData<List<ChatInstance>>{
         val instances = MutableLiveData<List<ChatInstance>>()
 
         db.collection("Rooms")
@@ -298,6 +303,12 @@ object FirebaseRepository {
             }
 
         return instances
+    }
+
+    suspend fun getSingleRoom(roomId: String): Task<DocumentSnapshot> {
+
+        return db.collection("Rooms").document(roomId)
+            .get()
     }
 
     fun getMessages(roomId: String): MutableLiveData<List<Message>>{
@@ -323,6 +334,10 @@ object FirebaseRepository {
             }
 
         return allMessages
+    }
+
+    fun createNewRoom(roomData: ChatInstance){
+        db.collection("Rooms").document(roomData.id).set(roomData)
     }
 
     fun addNewMessage(roomId: String, updateTime: String, message: Message){

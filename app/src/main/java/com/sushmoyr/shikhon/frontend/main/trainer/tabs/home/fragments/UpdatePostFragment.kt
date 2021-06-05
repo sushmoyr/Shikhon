@@ -44,7 +44,7 @@ class UpdatePostFragment : Fragment() {
         }
 
         binding.cancelUpdateButton.setOnClickListener {
-            findNavController().navigate(R.id.action_updatePostFragment_to_postDetailsFragment)
+            findNavController().navigateUp()
         }
 
         Verify.listenToText(binding.trainingTitleUpdateText, "Field can't be empty")

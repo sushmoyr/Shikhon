@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_searchFragment_to_visitedProfileFragment"
             app:destination="@id/visitedProfileFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/extrasFragment"
@@ -129,6 +132,9 @@
         <action
             android:id="@+id/action_visitedProfileFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_visitedProfileFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_profileFragment"

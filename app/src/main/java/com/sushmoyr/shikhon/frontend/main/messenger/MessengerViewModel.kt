@@ -8,7 +8,7 @@ import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 class MessengerViewModel : ViewModel() {
 
     private val currentUserId = Firebase.auth.currentUser?.uid.toString()
-    val userRooms = FirebaseRepository.getRooms(currentUserId)
+    val userRooms = FirebaseRepository.getUserRooms(currentUserId)
     val userList = FirebaseRepository.getAllUserData()
 
     fun getMessages(roomId: String) = FirebaseRepository.getMessages(roomId)

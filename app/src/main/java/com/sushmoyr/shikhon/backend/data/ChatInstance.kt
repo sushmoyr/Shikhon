@@ -9,6 +9,5 @@ import kotlinx.parcelize.Parcelize
 data class ChatInstance(
     val chatOwners: List<String> = emptyList(),
     val lastModified: String = "",
-    @DocumentId
     val id: String = "",
 ): Parcelable

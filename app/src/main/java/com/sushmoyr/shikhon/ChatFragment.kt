@@ -51,6 +51,7 @@ class ChatFragment : Fragment() {
         layoutManager.stackFromEnd = true
         layoutManager.reverseLayout = true
         binding.chats.layoutManager = layoutManager
+        binding.chats.scrollToPosition(adapter.itemCount - 1)
 
         val room = args.room
 
@@ -78,6 +79,10 @@ class ChatFragment : Fragment() {
 
     private fun observeMessages() {
         val room = args.room
+        if(room.id.isEmpty()){
+            Log.d("messenger", "Empty value")
+            return
+        }
 
         val messages = model.getMessages(room.id)
         messages.observe(viewLifecycleOwner, {messages->

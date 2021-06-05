@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +17,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
+import com.sushmoyr.shikhon.backend.data.ChatInstance
 import com.sushmoyr.shikhon.backend.data.Review
 import com.sushmoyr.shikhon.backend.data.TrainingPost
 import com.sushmoyr.shikhon.databinding.FragmentVisitedProfileBinding
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostListAdapter
+import com.sushmoyr.shikhon.utils.Verify
+import kotlinx.coroutines.launch
 
 class VisitedProfileFragment : Fragment() {
 
@@ -41,6 +45,7 @@ class VisitedProfileFragment : Fragment() {
             findNavController().navigate(directions)
         }
     }
+
 
     private val reviewListAdapter: ReviewListAdapter by lazy {
         ReviewListAdapter()
@@ -119,6 +124,10 @@ class VisitedProfileFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.followButton.setOnClickListener {
+            handleChatRoomNavigation()
+        }
+
 
         return binding.root
     }
@@ -143,6 +152,30 @@ class VisitedProfileFragment : Fragment() {
         reviewContainer.adapter = reviewListAdapter
         reviewContainer.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
     }
+
+
+    private fun handleChatRoomNavigation(){
+        val roomId = Verify.createIdForChatRoom(args.profileid, auth.currentUser!!.uid.toString())
+        Log.d("messenger", roomId)
+        lifecycleScope.launch {
+            var instance: ChatInstance
+            val task = model.getRoomId(roomId)
+            task.addOnSuccessListener {
+                if (!it.exists() || it.data.isNullOrEmpty()){
+                    instance = model.createNewRoom(args.profileid, auth.currentUser!!.uid, Verify.getCurrentTime(), roomId)
+                    val direction = VisitedProfileFragmentDirections.actionVisitedProfileFragmentToChatFragment(instance)
+                    findNavController().navigate(direction)
+                }
+                else{
+                    instance = it.toObject(ChatInstance::class.java)!!
+                    Log.d("messenger", instance.toString())
+                    val direction = VisitedProfileFragmentDirections.actionVisitedProfileFragmentToChatFragment(instance)
+                    findNavController().navigate(direction)
+                }
+            }
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

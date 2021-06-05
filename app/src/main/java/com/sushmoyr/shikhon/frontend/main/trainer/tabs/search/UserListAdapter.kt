@@ -18,6 +18,7 @@ class UserListAdapter(private val onItemClicked: (String) -> Unit) :
                 binding.root.setOnClickListener {
                     onItemClicked(adapterPosition)
                 }
+
             }
 
             fun bind(currentItem: User){

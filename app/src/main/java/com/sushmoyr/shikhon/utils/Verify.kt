@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import org.w3c.dom.Text
+import java.time.LocalDateTime
 
 object Verify {
 
@@ -28,6 +29,17 @@ object Verify {
             }
 
         })
+    }
+
+    fun createIdForChatRoom(user1: String, user2: String): String {
+        return when{
+            user1>user2 -> user1+user2
+            else -> user2+user1
+        }
+    }
+
+    fun getCurrentTime(): String {
+        return LocalDateTime.now().toString()
     }
 
 }

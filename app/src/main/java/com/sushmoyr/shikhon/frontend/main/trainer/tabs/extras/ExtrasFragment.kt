@@ -1,11 +1,13 @@
 package com.sushmoyr.shikhon.frontend.main.trainer.tabs.extras
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.dynamic.SupportFragmentWrapper
@@ -64,6 +66,12 @@ class ExtrasFragment : Fragment() {
 
         binding.collectionButtonExtras.setOnClickListener {
             findNavController().navigate(R.id.action_extrasFragment_to_bookmarkFragment)
+        }
+
+        binding.trainerIdRequestButtonExtras.setOnClickListener {
+            Toast.makeText(requireContext(), "Opening Browser", Toast.LENGTH_SHORT).show()
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.gle/DKa7tP3BfKqeQaRn9"))
+            startActivity(browserIntent)
         }
 
         return binding.root

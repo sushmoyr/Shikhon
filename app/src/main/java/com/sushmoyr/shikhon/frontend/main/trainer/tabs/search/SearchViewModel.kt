@@ -55,7 +55,7 @@ class SearchViewModel : ViewModel() {
         else {
             val originalUserData = allUsers.value
             val filteredUserData = originalUserData?.filter { user ->
-                (user.name.contains(query, true) || user.bio.contains(query, true))
+                (user.name.contains(query, true))
             }
             filteredUser.value = filteredUserData
         }

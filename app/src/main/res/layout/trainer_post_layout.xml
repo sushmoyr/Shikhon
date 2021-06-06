@@ -63,6 +63,7 @@
                 android:fontFamily="@font/raleway_semibold"
                 android:maxLines="2"
                 android:text="@{post.trainingName}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 android:textSize="24sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,35 +77,39 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:maxLines="5"
                 android:ellipsize="end"
-                android:fontFamily="@font/raleway"
-                android:maxLines="3"
                 android:text="@{post.trainingDescription}"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/postLocation"
-                app:layout_constraintTop_toBottomOf="@+id/postLocation" />
+                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                app:layout_constraintEnd_toEndOf="@+id/postTitle"
+                app:layout_constraintStart_toStartOf="@+id/postTitle"
+                app:layout_constraintTop_toBottomOf="@+id/postTitle" />
 
             <TextView
                 android:id="@+id/postLocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/raleway_semibold"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/raleway"
+                android:maxLines="3"
                 android:text="@{post.trainingLocation}"
-                app:layout_constraintEnd_toEndOf="@+id/postTitle"
-                app:layout_constraintStart_toStartOf="@+id/postTitle"
-                app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/postDescription"
+                app:layout_constraintTop_toBottomOf="@+id/postDescription" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/postPhotos"
                 android:layout_width="0dp"
+                android:layout_marginTop="8dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/postDescription"
-                app:layout_constraintStart_toStartOf="@+id/postDescription"
-                app:layout_constraintTop_toBottomOf="@+id/postDescription" />
+                app:layout_constraintEnd_toEndOf="@+id/postLocation"
+                app:layout_constraintStart_toStartOf="@+id/postLocation"
+                app:layout_constraintTop_toBottomOf="@+id/postLocation" />
 
             <ImageView
                 android:id="@+id/testImage"

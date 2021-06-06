@@ -15,89 +15,129 @@
         android:background="#EEEEEE"
         tools:context=".frontend.main.trainer.tabs.post.PostFragment">
 
-        <TextView
-            android:id="@+id/testPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/raleway_bold"
-            android:text="@string/post_a_new_training_offer"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trainingTitle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/testPost">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trainingTitleText"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway"
-                android:hint="@string/training_name"
-                android:text="@{post.trainingName}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trainingDesc"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/trainingTitle"
-            app:layout_constraintStart_toStartOf="@id/trainingTitle"
-            app:layout_constraintTop_toBottomOf="@+id/trainingTitle">
+                <TextView
+                    android:id="@+id/testPost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="@string/post_a_new_training_offer"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trainingDescText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway"
-                android:hint="@string/training_description"
-                android:text="@{post.trainingDescription}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/trainingTitle"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/testPost">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/trainingDesc"
-            app:layout_constraintStart_toStartOf="@id/trainingDesc"
-            app:layout_constraintTop_toBottomOf="@+id/trainingDesc">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/trainingTitleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway"
+                        android:hint="@string/training_name"
+                        android:text="@{post.trainingName}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/trainingLocationText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway"
-                android:hint="@string/training_location"
-                android:text="@{post.trainingLocation}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/trainingDesc"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/trainingTitle"
+                    app:layout_constraintStart_toStartOf="@id/trainingTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/trainingTitle">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageGrid"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ad_tag_button" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/trainingDescText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway"
+                        android:hint="@string/training_description"
+                        android:maxLines="20"
+                        android:text="@{post.trainingDescription}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout3"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/trainingDesc"
+                    app:layout_constraintStart_toStartOf="@id/trainingDesc"
+                    app:layout_constraintTop_toBottomOf="@+id/trainingDesc">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/trainingLocationText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/raleway"
+                        android:hint="@string/training_location"
+                        android:text="@{post.trainingLocation}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageGrid"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ad_tag_button" />
+
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ad_tag_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Add a tag"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:layout_constraintStart_toStartOf="@+id/chipGroup"
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/uploadImage"
@@ -125,26 +165,6 @@
             app:srcCompat="@drawable/ic_baseline_check_24"
             android:contentDescription="@string/floating_action_button" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/ad_tag_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Add a tag"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/ic_baseline_add_24"
-            app:layout_constraintStart_toStartOf="@+id/chipGroup"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

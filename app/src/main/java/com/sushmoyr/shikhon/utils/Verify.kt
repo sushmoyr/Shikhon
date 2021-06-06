@@ -80,7 +80,7 @@ object Verify {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s != null) {
-                    if(s.isNotEmpty() && s != currentPass)
+                    if(s != currentPass)
                         confirmPass.error = "Password didn't match"
                     else
                         confirmPass.error = null

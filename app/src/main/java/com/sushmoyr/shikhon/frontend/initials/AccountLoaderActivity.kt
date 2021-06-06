@@ -12,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
-import com.sushmoyr.shikhon.frontend.main.trainer.TrainerActivity
+import com.sushmoyr.shikhon.frontend.main.trainer.MainActivity
 import com.sushmoyr.shikhon.frontend.main.trainee.TraineeActivity
 import com.sushmoyr.shikhon.utils.Constants
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class AccountLoaderActivity : AppCompatActivity() {
 
     private fun startTrainerActivity(accountType: String, user: User) {
         val bundle = Bundle()
-        val intent = Intent(this, TrainerActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.ACCOUNT_TYPE, accountType)
         bundle.putParcelable(Constants.USER_INFO_BUNDLE_KEY, user)
         intent.putExtra(Constants.USER_INFO_INTENT_BUNDLE_KEY, bundle)

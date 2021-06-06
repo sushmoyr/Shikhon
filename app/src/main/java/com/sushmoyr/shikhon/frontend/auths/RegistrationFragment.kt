@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
@@ -21,8 +20,6 @@ import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentRegistrationBinding
 import com.sushmoyr.shikhon.frontend.initials.AccountLoaderActivity
-import com.sushmoyr.shikhon.frontend.main.trainee.TraineeActivity
-import com.sushmoyr.shikhon.frontend.main.trainer.TrainerActivity
 import com.sushmoyr.shikhon.utils.Constants
 import com.sushmoyr.shikhon.utils.Verify
 

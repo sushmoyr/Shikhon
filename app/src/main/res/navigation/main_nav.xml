@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile.TrainerProfileFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action

@@ -348,13 +348,12 @@ object FirebaseRepository {
 
     fun bookmarkPost(post: TrainingPost, uid: String) {
         val bookmark = Bookmark(post.postId)
-        db.collection("bookmarks/$uid/addedBookmarks").add(bookmark)
+        db.collection("bookmarks/$uid/addedBookmarks").document(bookmark.postId).set(bookmark)
     }
 
     fun getAllBookmarks(uid: String): MutableLiveData<List<Bookmark>> {
 
         db.collection("bookmarks/$uid/addedBookmarks")
-            .orderBy("timeStamp", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
             if(error != null)
                 return@addSnapshotListener

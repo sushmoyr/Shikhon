@@ -22,7 +22,7 @@ import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentProfileBinding
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewadapters.PostListAdapter
 
-class TrainerProfileFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     val model: ProfileViewModel by activityViewModels()
 
@@ -34,7 +34,7 @@ class TrainerProfileFragment : Fragment() {
     private val postListAdapter: PostListAdapter by lazy {
         PostListAdapter {
             val directions =
-                TrainerProfileFragmentDirections.actionProfileFragmentToPostDetailsFragment(
+                ProfileFragmentDirections.actionProfileFragmentToPostDetailsFragment(
                     it.postId,
                     it.user.uuid
                 )
@@ -100,7 +100,7 @@ class TrainerProfileFragment : Fragment() {
         //edit profile
         binding.editProfileButton.setOnClickListener{
             if(profile != null){
-                val directions = TrainerProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(profile!!)
+                val directions = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(profile!!)
                 findNavController().navigate(directions)
             }
             else{

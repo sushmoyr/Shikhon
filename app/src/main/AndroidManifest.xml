@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shikhon">
-        <activity android:name=".frontend.main.trainee.TraineeActivity"></activity>
+        <activity android:name=".frontend.main.trainee.TraineeActivity"/>
         <activity android:name=".frontend.initials.AccountLoaderActivity" />
         <activity android:name=".frontend.initials.SplashActivity">
             <intent-filter>
@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".frontend.initials.PreTaskActivity" />
         <activity android:name=".frontend.auths.AuthenticationActivity" />
-        <activity android:name=".frontend.main.trainer.TrainerActivity" />
+        <activity android:name=".frontend.main.trainer.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

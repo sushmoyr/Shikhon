@@ -13,11 +13,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentRegistrationBinding
+import com.sushmoyr.shikhon.frontend.initials.AccountLoaderActivity
 import com.sushmoyr.shikhon.frontend.main.trainee.TraineeActivity
 import com.sushmoyr.shikhon.frontend.main.trainer.TrainerActivity
 import com.sushmoyr.shikhon.utils.Constants
@@ -98,10 +101,20 @@ class RegistrationFragment : Fragment() {
                         Log.d("Firebase", "createUserWithEmail:success")
                         val user = auth.currentUser
                         addUserToDatabase(user)
-                        completeProfile()
+                        val profileUpdates = userProfileChangeRequest {
+                            displayName = Constants.USER_TYPE_TRAINEE.toString()
+                        }
+
+                        user!!.updateProfile(profileUpdates)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d("profileUpdate", "User profile updated.")
+                                    completeProfile()
+                                }
+                            }
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w("Firebase", "createUserWithEmail:failure", task.exception)
+                        Log.d("Firebase", "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             requireContext(), "Registration failed.",
                             Toast.LENGTH_SHORT
@@ -116,7 +129,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun completeProfile() {
-        val intent = Intent(requireActivity(), TraineeActivity::class.java)
+        val intent = Intent(requireActivity(), AccountLoaderActivity::class.java)
         startActivity(intent)
         activity?.finish()
     }

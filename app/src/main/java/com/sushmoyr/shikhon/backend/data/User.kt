@@ -2,6 +2,7 @@ package com.sushmoyr.shikhon.backend.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 @Parcelize
 data class User(

@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
 import com.sushmoyr.shikhon.databinding.FragmentPostOptionsBinding
 import com.sushmoyr.shikhon.frontend.main.trainer.tabs.home.viewmodels.SharedHomeViewModel
@@ -21,6 +23,8 @@ class PostOptionsFragment : BottomSheetDialogFragment() {
     private val args: PostOptionsFragmentArgs by navArgs()
 
     private val model: SharedHomeViewModel by activityViewModels()
+
+    private val auth = Firebase.auth.currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +47,19 @@ class PostOptionsFragment : BottomSheetDialogFragment() {
             findNavController().navigate(R.id.action_postOptionsFragment_to_homeFragment)
         }
 
+        binding.addToBookmarks.setOnClickListener {
+            if (auth != null) {
+                model.addToBookmarks(post, auth.uid)
+                Toast.makeText(requireContext(), "Added to bookmarks", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+        }
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

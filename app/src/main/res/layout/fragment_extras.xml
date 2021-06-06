@@ -50,6 +50,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/rootLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -60,14 +61,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/messenger_button_extras"
-            android:focusable="true"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,14 +105,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/collection_button_extras"
-            android:focusable="true"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,14 +149,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/account_settings_button_extras"
-            android:focusable="true"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,8 +192,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:focusable="true"
-            android:clickable="true"
             android:id="@+id/trainer_id_request_button_extras"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -200,6 +199,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -235,8 +236,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:focusable="true"
-            android:clickable="true"
             android:id="@+id/sign_out_button__extras"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -244,6 +243,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

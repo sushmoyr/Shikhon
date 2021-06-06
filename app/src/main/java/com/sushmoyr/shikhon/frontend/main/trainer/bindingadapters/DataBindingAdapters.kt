@@ -138,6 +138,16 @@ class DataBindingAdapters {
             }
         }
 
+        @BindingAdapter("android:allowedUser", "android:currentUser", requireAll = true)
+        @JvmStatic
+        fun viewPrivacySettings(view: View, allowedUser: String, currentUser: String){
+            if(allowedUser == currentUser){
+                view.visibility = View.VISIBLE
+            }
+            else
+                view.visibility = View.GONE
+        }
+
         private fun isLiked(reacts: List<String>?): Boolean {
             val uid = Firebase.auth.uid
             return if (!reacts.isNullOrEmpty() && uid != null && reacts.contains(uid)) {

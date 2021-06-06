@@ -17,8 +17,10 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
+import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.databinding.FragmentExtrasBinding
 import com.sushmoyr.shikhon.frontend.initials.PreTaskActivity
+import com.sushmoyr.shikhon.utils.Constants
 import java.util.*
 
 class ExtrasFragment : Fragment() {
@@ -37,20 +39,31 @@ class ExtrasFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentExtrasBinding.inflate(layoutInflater, container, false)
+        val bundle = requireActivity().intent.getBundleExtra(Constants.USER_INFO_INTENT_BUNDLE_KEY)
+        val user = bundle?.getParcelable<User>(Constants.USER_INFO_BUNDLE_KEY)
 
-        binding.signOutButtonExtras.setOnClickListener {
-            val data: MutableMap<String, Any> = HashMap()
-            data["name"] = "Tokyo"
-            data["country"] = "Japan"
-            val addedDocRef: Task<DocumentReference> = Firebase.firestore.collection("cities").add(data).addOnSuccessListener {
-                val id = it.id
-                Log.d("keyGen", "Id = $id")
+        if(user!=null){
+            if(user.accountType == Constants.USER_TYPE_TRAINER){
+                binding.trainerIdRequestButtonExtras.visibility = View.GONE
+                binding.rootLinearLayout.weightSum = 4f
             }
+            else{
+                binding.trainerIdRequestButtonExtras.visibility = View.VISIBLE
+                binding.rootLinearLayout.weightSum = 5f
+            }
+        }
 
+        Log.d("Bundle", user.toString())
+        binding.signOutButtonExtras.setOnClickListener {
+            signOut()
         }
 
         binding.messengerButtonExtras.setOnClickListener {
             findNavController().navigate(R.id.action_extrasFragment_to_messengerFragment)
+        }
+
+        binding.collectionButtonExtras.setOnClickListener {
+            findNavController().navigate(R.id.action_extrasFragment_to_bookmarkFragment)
         }
 
         return binding.root

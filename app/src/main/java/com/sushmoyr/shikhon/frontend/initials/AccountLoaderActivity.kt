@@ -10,9 +10,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sushmoyr.shikhon.R
+import com.sushmoyr.shikhon.backend.data.User
 import com.sushmoyr.shikhon.backend.repository.FirebaseRepository
 import com.sushmoyr.shikhon.frontend.main.trainer.TrainerActivity
 import com.sushmoyr.shikhon.frontend.main.trainee.TraineeActivity
+import com.sushmoyr.shikhon.utils.Constants
 import kotlinx.coroutines.launch
 
 class AccountLoaderActivity : AppCompatActivity() {
@@ -36,18 +38,21 @@ class AccountLoaderActivity : AppCompatActivity() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
 
+
         if (currentUser != null) {
             lifecycleScope.launch {
                 val user = firebaseRepository.getCurrentUserData(currentUser.uid)!!
-
-                if (user.accountType == 0) {
-                    startTrainerActivity()
-                } else {
-                    startTraineeActivity()
-
-                }
+                startTrainerActivity(user.accountType.toString(), user)
             }
         }
+        /*if(currentUser != null){
+            if(currentUser.displayName == Constants.USER_TYPE_TRAINEE.toString())
+                startTraineeActivity()
+            else
+                startTrainerActivity()
+        }*/
+
+
     }
 
     private fun startTraineeActivity() {
@@ -56,8 +61,12 @@ class AccountLoaderActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun startTrainerActivity() {
+    private fun startTrainerActivity(accountType: String, user: User) {
+        val bundle = Bundle()
         val intent = Intent(this, TrainerActivity::class.java)
+        intent.putExtra(Constants.ACCOUNT_TYPE, accountType)
+        bundle.putParcelable(Constants.USER_INFO_BUNDLE_KEY, user)
+        intent.putExtra(Constants.USER_INFO_INTENT_BUNDLE_KEY, bundle)
         startActivity(intent)
         finish()
     }

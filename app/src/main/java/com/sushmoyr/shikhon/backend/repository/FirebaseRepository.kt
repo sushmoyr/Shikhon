@@ -2,17 +2,15 @@ package com.sushmoyr.shikhon.backend.repository
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.sushmoyr.shikhon.backend.data.*
 import com.sushmoyr.shikhon.utils.Constants
+import com.sushmoyr.shikhon.utils.Verify
 import kotlinx.coroutines.tasks.await
 import java.util.ArrayList
 
@@ -24,6 +22,7 @@ object FirebaseRepository {
     private val storage = Firebase.storage
 
     private val allPosts = MutableLiveData<List<TrainingPost>>()
+    private val allBookmarks = MutableLiveData<List<Bookmark>>()
     private val allUsers = MutableLiveData<List<User>>()
     private val allReviews = MutableLiveData<List<Review>>()
     private val singlePost = MutableLiveData<TrainingPost>()
@@ -346,5 +345,26 @@ object FirebaseRepository {
                 Log.d(tags, "Msg added = ${message.message}")
             }
     }
+
+    fun bookmarkPost(post: TrainingPost, uid: String) {
+        val bookmark = Bookmark(post.postId)
+        db.collection("bookmarks/$uid/addedBookmarks").add(bookmark)
+    }
+
+    fun getAllBookmarks(uid: String): MutableLiveData<List<Bookmark>> {
+
+        db.collection("bookmarks/$uid/addedBookmarks")
+            .orderBy("timeStamp", Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+            if(error != null)
+                return@addSnapshotListener
+            if(value != null){
+                allBookmarks.value = value.toObjects(Bookmark::class.java)
+            }
+        }
+
+        return allBookmarks
+    }
+
 
 }

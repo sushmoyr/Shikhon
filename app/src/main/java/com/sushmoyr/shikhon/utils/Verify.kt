@@ -3,6 +3,7 @@ package com.sushmoyr.shikhon.utils
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
@@ -55,8 +56,14 @@ object Verify {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!(count in 33 downTo 5)){
-                    currentPass.error = "Password length must be from 6 to 32 characters"
+                if (s != null) {
+                    if(s.length !in 33 downTo 6){
+                        Log.d("text listener", "On error: $s")
+                        currentPass.error = "Password length must be from 6 to 32 characters"
+                    }else{
+                        currentPass.error = null
+                        Log.d("text listener", "On clear error: $s")
+                    }
                 }
             }
 
@@ -75,6 +82,8 @@ object Verify {
                 if (s != null) {
                     if(s.isNotEmpty() && s != currentPass)
                         confirmPass.error = "Password didn't match"
+                    else
+                        confirmPass.error = null
                 }
             }
 

@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_extrasFragment_to_messengerFragment"
             app:destination="@id/messengerFragment" />
+        <action
+            android:id="@+id/action_extrasFragment_to_bookmarkFragment"
+            app:destination="@id/bookmarkFragment" />
     </fragment>
     <fragment
         android:id="@+id/postDetailsFragment"
@@ -170,5 +173,14 @@
         <action
             android:id="@+id/action_chatFragment_to_visitedProfileFragment"
             app:destination="@id/visitedProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarkFragment"
+        android:name="com.sushmoyr.shikhon.frontend.main.trainer.tabs.bookmarks.BookmarkFragment"
+        android:label="fragment_bookmark"
+        tools:layout="@layout/fragment_bookmark" >
+        <action
+            android:id="@+id/action_bookmarkFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
     </fragment>
 </navigation>

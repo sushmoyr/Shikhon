@@ -6,6 +6,9 @@ object Constants {
     const val USER_TYPE_TRAINER = 0
     const val USER_TYPE_TRAINEE = 1
     const val USER_TYPE_NONE = -1
+    const val ACCOUNT_TYPE = "accountType"
+    const val USER_INFO_BUNDLE_KEY = "userInfoInBundle"
+    const val USER_INFO_INTENT_BUNDLE_KEY = "userInfoInBundleToIntent"
     const val USER = "users"
     const val ONBOARDING_STATE = "onboardingState"
     const val ONBOARDING_FINISHED = "onboardingFinished"
